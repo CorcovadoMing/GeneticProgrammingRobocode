@@ -1,11 +1,5 @@
 #include "Tree.h"
 
-
-Tree::Tree()
-{
-}
-
-
-Tree::~Tree()
+Tree::Tree(const std::string &data) : root_(data)
 {
 }
