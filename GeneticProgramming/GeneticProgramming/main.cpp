@@ -3,12 +3,15 @@
 
 int main()
 {
-	Tree tree("ifstatement");
-	std::cout << tree.root().getData() << std::endl;
-	std::cout << tree.root().numberOfChildren() << std::endl;
-	tree.root().addChild(Node("boolExpression"));
-	std::cout << tree.root().numberOfChildren() << std::endl;
-	std::cout << tree.root().child(0).getData() << std::endl;
+	Tree tree("if");
+	Node* root = &tree.root();
+	
+	std::cout << root->getData() << " " << root->getType() << std::endl;
+	std::cout << root->numberOfChildren() << std::endl;
+	
+	root->addChild(Node("if"));
+	std::cout << root->numberOfChildren() << std::endl;
+	std::cout << root->child(0)->getData() << std::endl;
 
 	return 0;
 }
