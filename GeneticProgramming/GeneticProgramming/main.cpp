@@ -3,7 +3,7 @@
 
 int main()
 {
-	Tree tree("ifstatement");
+	Tree tree("statements");
 	std::cout << "Root\t\t" << tree.root()->getType() << std::endl;
 	for (std::size_t i = 0; i < tree.root()->numberOfChildren(); i += 1)
 	{
