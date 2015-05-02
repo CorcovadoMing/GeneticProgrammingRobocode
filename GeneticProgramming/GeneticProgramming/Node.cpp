@@ -6,7 +6,7 @@
 Node::Node(const std::string &type) : type_(type)
 {
 	Ruleset syntax = Node::GrowthRule(type);
-	if (syntax.size() > 1)
+	if (syntax.size() > 0)
 	{
 		const std::size_t index = RandomRange::random<int>(0, syntax.size() - 1);
 		for (const std::string i : syntax[index])
@@ -25,12 +25,10 @@ const Ruleset &Node::GrowthRule(const std::string &type)
 	Rule["controlStatement"] = Ruleset{ { "flowStatement" } };
 
 	Rule["flowStatement"] = Ruleset{ { "whileStatement" }, { "ifStatement" } };
-	Rule["ifStatement"] = Ruleset{ { "ifStatement", "elseIfStatement" } };
-	Rule["elseIfStatement"] = Ruleset{ { "elseIfStatement", "elseIfStatement" }, { "elseIfStatement", "elseStatement" } };
+	Rule["ifStatement"] = Ruleset{ { "ifStatement", "elseIfStatement" }, { "conditionalExpression", "statements" } };
+	Rule["elseIfStatement"] = Ruleset{ { "elseIfStatement", "elseIfStatement" }, { "elseIfStatement", "elseStatement" }, { "conditionalExpression", "statements" } };
 	
 	// Semi-terminals
-	Rule["ifStatement"] = Ruleset{ { "conditionalExpression", "statenebts" } };
-	Rule["elseIfStatement"] = Ruleset{ { "conditionalExpression", "statements" } };
 	Rule["whileStatement"] = Ruleset{ { "conditionalExpression", "statements" } };
 
 	// Terminals Zero-way
