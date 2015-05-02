@@ -24,6 +24,11 @@ void Node::addChild(const Node &child)
 	child_.push_back(child); 
 }
 
+void Node::addChild(const std::string &child)
+{
+	child_.push_back(Node(child));
+}
+
 const Node *Node::child(const std::size_t index) const 
 { 
 	return &child_[index]; 

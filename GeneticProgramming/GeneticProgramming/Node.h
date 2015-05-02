@@ -11,6 +11,7 @@ public:
 	const std::size_t numberOfChildren() const;
 	
 	void addChild(const Node &);
+	void addChild(const std::string &);
 	
 	const Node *child(const std::size_t) const;
 	Node *child(const std::size_t);
