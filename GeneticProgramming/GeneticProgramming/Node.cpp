@@ -1,23 +1,25 @@
 #include "Node.h"
+#include "RandomRange.h"
 #include <map>
 #include <iostream>
 
 Node::Node(const std::string &type) : type_(type)
 {
-	std::vector<std::string> syntax = Node::GrowthRule(type);
-	for (const std::string i : syntax)
+	Ruleset syntax = Node::GrowthRule(type);
+	const std::size_t index = RandomRange::random<int>(0, syntax.size() - 1);
+	for (const std::string i : syntax[index])
 	{
 		child_.push_back(i);
 	}
 }
 
-const std::vector<std::string> &Node::GrowthRule(const std::string &type)
+const Ruleset &Node::GrowthRule(const std::string &type)
 {
-	static std::map< std::string, std::vector<std::string> > Rule;
-	Rule["ifstatement"] = std::vector<std::string> {"boolexpression", "statements", "statements"};
-	Rule["boolexpression"] = std::vector<std::string> {"null"};
-	Rule["statements"] = std::vector<std::string> {"null"};
-	Rule["null"] = std::vector<std::string>();
+	static std::map<std::string, Ruleset> Rule;
+	Rule["ifstatement"] = Ruleset { {"boolexpression", "statements", "statements"} };
+	Rule["boolexpression"] = Ruleset { {"null"} };
+	Rule["statements"] = Ruleset { { "null" } };
+	Rule["null"] = Ruleset { {} };
 	
 	return Rule[type];
 }
