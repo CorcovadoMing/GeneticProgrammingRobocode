@@ -40,15 +40,90 @@ void Tree::parse() const
 	}
 }
 
-void Tree::parse(const Node *node) const
+void Tree::parse(const Node *node, const bool withNewLine, int indent) const
 {
 	if (node->willExpand())
 	{
-		std::cout << node->getType() << std::endl;
+		for (std::size_t i = 0; i < indent; i += 1)
+		{
+			std::cout << " ";
+		}
+		if (node->getType() == "whileStatement" && node->numberOfChildren() == 2)
+		{
+			std::cout << "while ( ";
+			parse(node->child(0), false, 0);
+			std::cout << " ) {" << std::endl;
+			indent += 4;
+			parse(node->child(1), true, indent);
+			indent -= 4;
+			for (std::size_t i = 0; i < indent; i += 1)
+			{
+				std::cout << " ";
+			}
+			std::cout << "}" << std::endl;
+		}
+		else if (node->getType() == "ifStatement" && node->numberOfChildren() == 2)
+		{
+			std::cout << "if ( ";
+			parse(node->child(0), false, 0);
+			std::cout << " ) {" << std::endl;
+			indent += 4;
+			parse(node->child(1), true, indent);
+			indent -= 4;
+			for (std::size_t i = 0; i < indent; i += 1)
+			{
+				std::cout << " ";
+			}
+			std::cout << "}" << std::endl;
+		}
+		else if (node->getType() == "elseIfStatement" && node->numberOfChildren() == 2)
+		{
+			std::cout << "else if ( ";
+			parse(node->child(0), false, 0);
+			std::cout << " ) {" << std::endl;
+			indent += 4;
+			parse(node->child(1), true, indent);
+			indent -= 4;
+			for (std::size_t i = 0; i < indent; i += 1)
+			{
+				std::cout << " ";
+			}
+			std::cout << "}" << std::endl;
+		}
+		else if (node->getType() == "elseStatement" && node->numberOfChildren() == 1)
+		{
+			std::cout << "else {" << std::endl;
+			indent += 4;
+			parse(node->child(0), true, indent);
+			indent -= 4;
+			for (std::size_t i = 0; i < indent; i += 1)
+			{
+				std::cout << " ";
+			}
+			std::cout << "}" << std::endl;
+		}
+		else
+		{
+			if (withNewLine)
+			{
+				std::cout << node->getType() << std::endl;
+			}
+			else
+			{
+				std::cout << node->getType();
+			}
+			for (std::size_t i = 0; i < node->numberOfChildren(); i += 1)
+			{
+				parse(node->child(i), withNewLine, indent);
+			}
+		}
 	}
-	for (std::size_t i = 0; i < node->numberOfChildren(); i += 1)
+	else
 	{
-		parse(node->child(i));
+		for (std::size_t i = 0; i < node->numberOfChildren(); i += 1)
+		{
+			parse(node->child(i), withNewLine, indent);
+		}
 	}
 }
 

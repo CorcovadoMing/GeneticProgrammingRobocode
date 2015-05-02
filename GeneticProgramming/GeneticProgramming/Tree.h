@@ -9,10 +9,10 @@ public:
 	const Node *root() const { return &root_; }
 	Node *root() { return &root_; }
 	void print() const;
-	void parse() const; //Tend to implement 2-pass parser
+	void parse() const;
 
 private:
 	void print(const Node *) const;
-	void parse(const Node *) const;
+	void parse(const Node *, const bool withNewLine=true, int indent=0) const;
 	Node root_;
 };

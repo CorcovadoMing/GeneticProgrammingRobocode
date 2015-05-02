@@ -6,7 +6,7 @@
 Node::Node(const std::string &type, const int level) : type_(type), level_(level)
 {
 	// Growth
-	if (level < 10)
+	if (level < 5)
 	{
 		Ruleset syntax = Node::GrowthRule(type);
 		if (syntax.size())
