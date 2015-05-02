@@ -10,6 +10,8 @@ const std::string &Node::DataToType(const std::string &data)
 {
 	static std::map<std::string, std::string> Table;
 	Table["if"] = "ifstatement";
+	Table["equal"] = "statement";
+	Table["not"] = "statement";
 
 	return Table[data];
 }
