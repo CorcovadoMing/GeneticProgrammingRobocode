@@ -79,6 +79,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Node.h" />
+    <ClInclude Include="RandomRange.h" />
     <ClInclude Include="Tree.h" />
   </ItemGroup>
   <ItemGroup>

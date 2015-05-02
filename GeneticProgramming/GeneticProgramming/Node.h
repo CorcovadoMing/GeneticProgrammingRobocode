@@ -3,6 +3,9 @@
 #include <vector>
 #include <map>
 
+typedef std::vector<std::string> Rule;
+typedef std::vector< std::vector<std::string> > Ruleset;
+
 class Node
 {
 public:
@@ -11,11 +14,11 @@ public:
 	const std::size_t numberOfChildren() const;
 	
 	void addChild(const Node &);
+	void addChild(const std::string &);
 	
 	const Node *child(const std::size_t) const;
 	Node *child(const std::size_t);
 	
-	void setData(std::string &);
 	const std::string &getData() const;
 	const std::string &getType() const;
 private:
@@ -23,5 +26,5 @@ private:
 	std::string type_;
 	std::vector<Node> child_;
 
-	static const std::string &DataToType(const std::string &);
+	static const Ruleset &GrowthRule(const std::string &);
 };

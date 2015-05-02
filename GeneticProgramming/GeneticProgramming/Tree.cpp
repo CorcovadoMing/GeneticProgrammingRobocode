@@ -1,5 +1,5 @@
 #include "Tree.h"
 
-Tree::Tree(const std::string &data) : root_(data)
+Tree::Tree(const std::string &type) : root_(type)
 {
 }
