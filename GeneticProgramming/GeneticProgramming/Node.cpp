@@ -2,18 +2,24 @@
 #include <map>
 #include <iostream>
 
-Node::Node(const std::string &data) : data_(data), type_(Node::DataToType(data))
+Node::Node(const std::string &type) : type_(type)
 {
+	std::vector<std::string> syntax = Node::GrowthRule(type);
+	for (const std::string i : syntax)
+	{
+		child_.push_back(i);
+	}
 }
 
-const std::string &Node::DataToType(const std::string &data)
+const std::vector<std::string> &Node::GrowthRule(const std::string &type)
 {
-	static std::map<std::string, std::string> Table;
-	Table["if"] = "ifstatement";
-	Table["equal"] = "statement";
-	Table["not"] = "statement";
-
-	return Table[data];
+	static std::map< std::string, std::vector<std::string> > Rule;
+	Rule["ifstatement"] = std::vector<std::string> {"boolexpression", "statements", "statements"};
+	Rule["boolexpression"] = std::vector<std::string> {"null"};
+	Rule["statements"] = std::vector<std::string> {"null"};
+	Rule["null"] = std::vector<std::string>();
+	
+	return Rule[type];
 }
 
 const std::size_t Node::numberOfChildren() const 
@@ -39,12 +45,6 @@ const Node *Node::child(const std::size_t index) const
 Node *Node::child(const std::size_t index) 
 { 
 	return &child_[index]; 
-}
-
-void Node::setData(std::string & data) 
-{ 
-	data_ = data; 
-	type_ = Node::DataToType(data);
 }
 
 const std::string &Node::getData() const 

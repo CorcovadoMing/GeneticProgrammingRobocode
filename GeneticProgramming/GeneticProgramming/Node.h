@@ -16,7 +16,6 @@ public:
 	const Node *child(const std::size_t) const;
 	Node *child(const std::size_t);
 	
-	void setData(std::string &);
 	const std::string &getData() const;
 	const std::string &getType() const;
 private:
@@ -24,5 +23,5 @@ private:
 	std::string type_;
 	std::vector<Node> child_;
 
-	static const std::string &DataToType(const std::string &);
+	static const std::vector<std::string> &GrowthRule(const std::string &);
 };
