@@ -1,0 +1,4 @@
+Results for 1 round
+Robot Name	    Total Score    	Survival	Surv Bonus	Bullet Dmg	Bullet Bonus	Ram Dmg * 2	Ram Bonus	 1sts 	 2nds 	 3rds 	
+1st: sample.Tracker	180 (100%)	50	10	100	20	0	0	1	0	0	
+2nd: sample.SittingDuck	0 (0%)	0	0	0	0	0	0	0	1	0	
