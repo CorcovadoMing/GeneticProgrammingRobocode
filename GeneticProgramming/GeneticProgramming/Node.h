@@ -9,7 +9,7 @@ typedef std::vector< std::vector<std::string> > Ruleset;
 class Node
 {
 public:
-	Node(const std::string &, const int level);
+	Node(const std::string &, const int);
 
 	const std::size_t numberOfChildren() const;
 	
@@ -17,11 +17,13 @@ public:
 	
 	const Node *child(const std::size_t) const;
 	Node *child(const std::size_t);
-	const int getLevel() const;
+	const unsigned getLevel() const;
+	const bool willExpand() const;
 	const std::string &getData() const;
 	const std::string &getType() const;
 private:
-	int level_;
+	unsigned level_;
+	bool need_expand_;
 	std::string data_;
 	std::string type_;
 	std::vector<Node> child_;

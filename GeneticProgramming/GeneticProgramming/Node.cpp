@@ -12,9 +12,13 @@ Node::Node(const std::string &type, const int level) : type_(type), level_(level
 		if (syntax.size())
 		{
 			const std::size_t index = RandomRange::random<int>(0, syntax.size() - 1);
-			for (const std::string i : syntax[index])
+			need_expand_ = (syntax[index][0] == "Expand" ? true : false);
+			for (std::size_t i = 1; i < syntax[index].size(); i += 1)
 			{
-				child_.push_back(Node(i, level + 1));
+				if (syntax[index][i] != "null")
+				{
+					child_.push_back(Node(syntax[index][i], level + 1));
+				}
 			}
 		}
 	}
@@ -25,9 +29,13 @@ Node::Node(const std::string &type, const int level) : type_(type), level_(level
 		if (syntax.size())
 		{
 			const std::size_t index = RandomRange::random<int>(0, syntax.size() - 1);
-			for (const std::string i : syntax[index])
+			need_expand_ = (syntax[index][0] == "Expand" ? true : false);
+			for (std::size_t i = 1; i < syntax[index].size(); i += 1)
 			{
-				child_.push_back(Node(i, level + 1));
+				if (syntax[index][i] != "null")
+				{
+					child_.push_back(Node(syntax[index][i], level + 1));
+				}
 			}
 		}
 	}
@@ -36,54 +44,42 @@ Node::Node(const std::string &type, const int level) : type_(type), level_(level
 const Ruleset &Node::GrowthRule(const std::string &type)
 {
 	static std::map<std::string, Ruleset> Rule;
-
-	Rule["statements"] = Ruleset{ { "statement", "statements", "controlStatement" }, { "statement" } };
-	Rule["statement"] = Ruleset{ { "controlStatement" }, { "argumentRequiring0" }, { "argumentRequiring1" }, { "argumentRequiring2" } };
-	Rule["controlStatement"] = Ruleset{ { "flowStatement" } };
-
-	Rule["flowStatement"] = Ruleset{ { "whileStatement" }, { "ifStatement" } };
-	Rule["ifStatement"] = Ruleset{ { "ifStatement", "elseIfStatement" }, { "conditionalExpression", "statements" } };
-	Rule["elseIfStatement"] = Ruleset{ { "elseIfStatement", "elseIfStatement" }, { "elseIfStatement", "elseStatement" }, { "conditionalExpression", "statements" } };
-	
+	Rule["statements"] = Ruleset{ { "Transform", "statement", "statements", "controlStatement" }, { "Transform", "statement" } };
+	Rule["statement"] = Ruleset{ { "Transform", "controlStatement" }, { "Transform", "argumentRequiring0" }, { "Transform", "argumentRequiring1"} };
+	Rule["controlStatement"] = Ruleset{ { "Transform", "flowStatement" } };
+	Rule["flowStatement"] = Ruleset{ { "Transform", "whileStatement" }, { "Transform", "ifStatement" } };
+	Rule["ifStatement"] = Ruleset{ { "Transform", "ifStatement", "elseIfStatement" }, { "Expand", "conditionalExpression", "statements" } };
+	Rule["elseIfStatement"] = Ruleset{ { "Transform", "elseIfStatement", "elseIfStatement" }, { "Transform", "elseIfStatement", "elseStatement" }, { "Expand", "conditionalExpression", "statements" } };
 	// Semi-terminals
-	Rule["whileStatement"] = Ruleset{ { "conditionalExpression", "statements" } };
-
+	Rule["whileStatement"] = Ruleset{ { "Expand", "conditionalExpression", "statements" } };
 	// Terminals Zero-way
-	Rule["argumentRequiring0"] = Ruleset{ {} };
-
+	Rule["argumentRequiring0"] = Ruleset{ { "Expand", "null" } };
 	// Termninals One-way
-	Rule["elseStatement"] = Ruleset{ { "statements" } };
-
-	Rule["argumentRequiring1"] = Ruleset{ { "expression" } }; // issue
-	Rule["expression"] = Ruleset{ {} }; // issue
-	
+	Rule["elseStatement"] = Ruleset{ { "Expand", "statements" } };
+	Rule["argumentRequiring1"] = Ruleset{ { "Expand", "expression" } }; // issue
+	Rule["expression"] = Ruleset{ { "Expand", "null" } }; // issue
+	Rule["conditionalExpression"] = Ruleset{ { "Expand", "null" } }; // issue
 	return Rule[type];
 }
 
 const Ruleset &Node::TerminalRule(const std::string &type)
 {
 	static std::map<std::string, Ruleset> Terminal;
-
-	Terminal["statements"] = Ruleset{ { "statement" } };
-	Terminal["statement"] = Ruleset{ { "argumentRequiring0" }, { "argumentRequiring1" }, { "argumentRequiring2" } };
-	Terminal["controlStatement"] = Ruleset{ { "flowStatement" } };
-
-	Terminal["flowStatement"] = Ruleset{ { "whileStatement" }, { "ifStatement" } };
-	Terminal["ifStatement"] = Ruleset{ { "conditionalExpression", "statements" } };
-	Terminal["elseIfStatement"] = Ruleset{ { "conditionalExpression", "statements" } };
-
+	Terminal["statements"] = Ruleset{ { "Transform", "statement" } };
+	Terminal["statement"] = Ruleset{ { "Transform", "argumentRequiring0" }, { "Transform", "argumentRequiring1" } };
+	Terminal["controlStatement"] = Ruleset{ { "Transform", "flowStatement" } };
+	Terminal["flowStatement"] = Ruleset{ { "Transform", "whileStatement" }, { "Transform", "ifStatement" } };
+	Terminal["ifStatement"] = Ruleset{ { "Expand", "conditionalExpression", "statements" } };
+	Terminal["elseIfStatement"] = Ruleset{ { "Expand", "conditionalExpression", "statements" } };
 	// Semi-terminals
-	Terminal["whileStatement"] = Ruleset{ { "conditionalExpression", "statements" } };
-
+	Terminal["whileStatement"] = Ruleset{ { "Expand", "conditionalExpression", "statements" } };
 	// Terminals Zero-way
-	Terminal["argumentRequiring0"] = Ruleset{ {} };
-
+	Terminal["argumentRequiring0"] = Ruleset{ { "Expand", "null" } };
 	// Termninals One-way
-	Terminal["elseStatement"] = Ruleset{ { "statements" } };
-
-	Terminal["argumentRequiring1"] = Ruleset{ { "expression" } }; // issue
-	Terminal["expression"] = Ruleset{ {} }; // issue
-
+	Terminal["elseStatement"] = Ruleset{ { "Expand", "statements" } };
+	Terminal["argumentRequiring1"] = Ruleset{ { "Expand", "expression" } }; // issue
+	Terminal["expression"] = Ruleset{ { "Expand", "null" } }; // issue
+	Terminal["conditionalExpression"] = Ruleset{ { "Expand", "null" } }; // issue
 	return Terminal[type];
 }
 
@@ -107,9 +103,14 @@ Node *Node::child(const std::size_t index)
 	return &child_[index]; 
 }
 
-const int Node::getLevel() const
+const unsigned Node::getLevel() const
 {
 	return level_;
+}
+
+const bool Node::willExpand() const
+{
+	return need_expand_;
 }
 
 const std::string &Node::getData() const 
