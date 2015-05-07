@@ -1,5 +1,7 @@
 __author__ = 'Ming'
 
+from shell import *
+
 
 def parse_result(filename):
     skip = 2
@@ -27,4 +29,8 @@ if __name__ == '__main__':
     records = parse_result("result.txt")
     for tank in records:
         print tank
+
+    out, err = shell_command(["ls", "-al"])
+    print out
+
 
