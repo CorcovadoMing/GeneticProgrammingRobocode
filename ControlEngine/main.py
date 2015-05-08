@@ -3,6 +3,15 @@ __author__ = 'Ming'
 from shell import *
 
 
+def simulate():
+    out, err = shell_command(["D:\\Robocode\\robocode.bat", "-battle", "battle\\intro.battle", "-nodisplay", "-results", "result\\result.txt"])
+    print out
+
+    records = parse_result("result\\result.txt")
+    for tank in records:
+        print tank
+
+
 def parse_result(filename):
     skip = 2
     records = []
@@ -26,11 +35,4 @@ def parse_result(filename):
     return records
 
 if __name__ == '__main__':
-    records = parse_result("result.txt")
-    for tank in records:
-        print tank
-
-    out, err = shell_command(["ls", "-al"])
-    print out
-
-
+    simulate()
