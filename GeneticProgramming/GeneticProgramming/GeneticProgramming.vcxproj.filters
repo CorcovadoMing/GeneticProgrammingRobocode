@@ -24,6 +24,9 @@
     <ClInclude Include="RandomRange.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="GeneticProgramming.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Tree.cpp">
@@ -33,6 +36,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Node.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneticProgramming.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
