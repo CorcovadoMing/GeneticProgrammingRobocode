@@ -26,14 +26,17 @@ public class Hand extends AdvancedRobot
 		}
 	}
 
-	void doFirePower() {
-		firePower = 400/target.distance;
+	void doFire() {
+		/* GP statements */
+		if (target.distance < 150 || target.energy < 30) {
+			fire(3);
+		}
 	}
 
 	void doMovement() {
+		/* GP #1 Statements*/
 		setAhead(direction*100);
-		double randomValue = PI * r.nextDouble();
-		setTurnRightRadians(target.bearing + PI/3 + randomValue);
+		setTurnRightRadians(target.bearing + PI/3 + PI * r.nextDouble(); /* GP #2 Expression*/);
 	}
 	
 	void doScanner() {
@@ -102,7 +105,8 @@ public class Hand extends AdvancedRobot
 	}
 
 	public void onHitWall(HitWallEvent e) {
-		direction = direction * -1;
+		direction = direction * -1;   
+		/* GP #4 Statement*/
 	}
 	
 	public void onScannedRobot(ScannedRobotEvent e) {
@@ -116,10 +120,9 @@ public class Hand extends AdvancedRobot
 			target.ctime = getTime();
 			target.speed = e.getVelocity();
 			target.distance = e.getDistance();
+			target.energy = e.getEnergy();
 		}
-		if (e.getDistance() < 150 || e.getEnergy() < 30) {
-			fire(3);
-		}
+		doFire();
 	}
 
 	public void onRobotDeath(RobotDeathEvent e) {
@@ -130,6 +133,7 @@ public class Hand extends AdvancedRobot
 
 class Enemy {
 	String name;
+	public double energy;
 	public double bearing;
 	public double head;
 	public long ctime;
