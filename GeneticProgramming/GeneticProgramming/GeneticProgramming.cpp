@@ -5,7 +5,32 @@ GeneticProgramming::GeneticProgramming()
 {
 }
 
-
-GeneticProgramming::~GeneticProgramming()
+void GeneticProgramming::initialize()
 {
+
+}
+
+void GeneticProgramming::matingSelection()
+{
+
+}
+
+void GeneticProgramming::crossover()
+{
+
+}
+
+void GeneticProgramming::mutation()
+{
+
+}
+
+void GeneticProgramming::environmentSelection()
+{
+
+}
+
+const double GeneticProgramming::evaluate_()
+{
+
 }

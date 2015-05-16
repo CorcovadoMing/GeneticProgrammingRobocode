@@ -3,6 +3,12 @@ class GeneticProgramming
 {
 public:
 	GeneticProgramming();
-	~GeneticProgramming();
+	void initialize();
+	void matingSelection();
+	void crossover();
+	void mutation();
+	void environmentSelection();
+private:
+	const double evaluate_();
 };
 
