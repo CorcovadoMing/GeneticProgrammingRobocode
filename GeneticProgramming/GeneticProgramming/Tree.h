@@ -10,6 +10,8 @@ public:
 	Node *root() { return &root_; }
 	void print() const;
 	void parse() const;
+    void Tree::exportTo(const char *) const;
+    void Tree::fprint(std::ofstream &, const Node *) const;
 
 private:
 	void print(const Node *) const;

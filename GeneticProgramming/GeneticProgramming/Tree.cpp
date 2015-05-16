@@ -5,6 +5,23 @@ Tree::Tree(const std::string &type, const int level) : root_(type, level)
 {
 }
 
+void Tree::exportTo(const char *filename) const
+{
+	std::ofstream fout;
+	fout.open(filename);
+	fprint(fout, root());
+	fout.close();
+}
+
+void Tree::fprint(std::ofstream &fout, const Node *node) const
+{
+	for (std::size_t i = 0; i < node->numberOfChildren(); i += 1)
+	{
+		fout << node->getLevel() << " " << node->getType() << " " << node->numberOfChildren() << " " << node->willExpand() << std::endl;
+		fprint(fout, node->child(i));
+	}
+}
+
 void Tree::print() const
 {
 	std::cout << "[Root " << root_.getLevel() << "] " << root_.getType() << " " << root_.willExpand() << std::endl;
