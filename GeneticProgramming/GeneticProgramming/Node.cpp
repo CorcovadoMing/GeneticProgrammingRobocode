@@ -3,7 +3,7 @@
 #include <map>
 #include <iostream>
 
-Node::Node(const std::string &type, const int level) : type_(type), level_(level)
+Node::Node(const std::string &type, const int level) : type_(type), level_(level), data_("Never_space")
 {
 	// Growth
 	if (level < 5)
@@ -39,6 +39,11 @@ Node::Node(const std::string &type, const int level) : type_(type), level_(level
 			}
 		}
 	}
+}
+
+Node::Node()
+{
+
 }
 
 const Ruleset &Node::GrowthRule(const std::string &type)
@@ -121,4 +126,18 @@ const std::string &Node::getData() const
 const std::string &Node::getType() const
 {
 	return type_;
+}
+
+std::vector<Node> &Node::getChildrenNodes()
+{
+	return child_;
+}
+
+void Node::reset(const int level, const std::string &type, const std::string &data, const bool to_exp)
+{
+	type_ = type;
+	data_ = data;
+	level_ = level;
+	need_expand_ = to_exp;
+	child_.clear();
 }

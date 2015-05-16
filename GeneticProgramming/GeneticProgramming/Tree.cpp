@@ -1,5 +1,6 @@
 #include "Tree.h"
 #include <iostream>
+#include <fstream>
 
 Tree::Tree(const std::string &type, const int level) : root_(type, level)
 {
@@ -9,16 +10,44 @@ void Tree::exportTo(const char *filename) const
 {
 	std::ofstream fout;
 	fout.open(filename);
-	fprint(fout, root());
+	fprint(fout, this->root());
 	fout.close();
 }
 
 void Tree::fprint(std::ofstream &fout, const Node *node) const
 {
+	fout << node->getLevel() << " "
+	     << node->getType() << " "
+	     << node->getData() << " "
+	     << node->numberOfChildren() << " "
+	     << node->willExpand() << std::endl;
+
 	for (std::size_t i = 0; i < node->numberOfChildren(); i += 1)
 	{
-		fout << node->getLevel() << " " << node->getType() << " " << node->numberOfChildren() << " " << node->willExpand() << std::endl;
 		fprint(fout, node->child(i));
+	}
+}
+
+void Tree::importFrom(const char *filename)
+{
+	std::ifstream fin;
+	fin.open(filename);
+	fscan(fin, root());
+	fin.close();
+}
+
+void Tree::fscan(std::ifstream &fin, Node *node)
+{
+	int lv, nchild, toexp;
+	std::string type, data;
+	fin >> lv >> type >> data >> nchild >> toexp;
+	node->reset(lv, type, data, (toexp > 0));
+
+	for (std::size_t i = 0; i < nchild; i += 1)
+	{
+		Node x;
+		node->getChildrenNodes().push_back(x);
+		fscan(fin, node->child(i));
 	}
 }
 
