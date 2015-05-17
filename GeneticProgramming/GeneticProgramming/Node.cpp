@@ -98,13 +98,13 @@ const Ruleset &Node::TerminalRule(const std::string &type)
 	Terminal["elseStatement"] = Ruleset{ { "Expand", "statements" } };
 	Terminal["argumentRequiring1"] = Ruleset{ { "Expand", "expression" } };
 	Terminal["expression"] = Ruleset{ { "Transform", "operator" }, { "Transform", "value" } };
-	Terminal["operator"] = Ruleset{ { "Transform", "plus" }, { "Transform", "minus" }, { "Transform", "multipal" }, { "Transform", "divide" } };
+	Terminal["operator"] = Ruleset{ { "Transform", "plus" }, { "Transform", "minus" }, { "Transform", "multiple" }, { "Transform", "divide" } };
 	Terminal["value"] = Ruleset{ { "Transform", "constant" }, { "Transform", "variable" } };
 	Terminal["constant"] = Ruleset{ { "Expand", "null" } };
 	Terminal["variable"] = Ruleset{ { "Expand", "null" } };
 	Terminal["plus"] = Ruleset{ { "Expand", "value", "value" } };
 	Terminal["minus"] = Ruleset{ { "Expand", "value", "value" } };
-	Terminal["multipal"] = Ruleset{ { "Expand", "value", "value" } };
+	Terminal["multiple"] = Ruleset{ { "Expand", "value", "value" } };
 	Terminal["divide"] = Ruleset{ { "Expand", "value", "value" } };
 	Terminal["conditionalExpression"] = Ruleset{ { "Transform", "value", "compareOperator", "value" } };
 	Terminal["compareOperator"] = Ruleset{ { "Transform", "greater" }, { "Transform", "lesser" }, { "Transform", "equal" }, { "Transform", "notEqual" } };

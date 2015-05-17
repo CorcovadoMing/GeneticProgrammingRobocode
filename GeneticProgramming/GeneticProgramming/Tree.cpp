@@ -96,8 +96,8 @@ void Tree::parse(const Node *node, const bool withNewLine, int indent) const
 		}
 		if (node->getType() == "whileStatement" && node->numberOfChildren() == 2)
 		{
-			std::cout << "while ( ";
-			parse(node->child(0), false, 0);
+			std::cout << "while (";
+			parse(node->child(0), false, 1);
 			std::cout << " ) {" << std::endl;
 			indent += 4;
 			parse(node->child(1), true, indent);
@@ -110,8 +110,8 @@ void Tree::parse(const Node *node, const bool withNewLine, int indent) const
 		}
 		else if (node->getType() == "ifStatement" && node->numberOfChildren() == 2)
 		{
-			std::cout << "if ( ";
-			parse(node->child(0), false, 0);
+			std::cout << "if (";
+			parse(node->child(0), false, 1);
 			std::cout << " ) {" << std::endl;
 			indent += 4;
 			parse(node->child(1), true, indent);
@@ -124,8 +124,8 @@ void Tree::parse(const Node *node, const bool withNewLine, int indent) const
 		}
 		else if (node->getType() == "elseIfStatement" && node->numberOfChildren() == 2)
 		{
-			std::cout << "else if ( ";
-			parse(node->child(0), false, 0);
+			std::cout << "else if (";
+			parse(node->child(0), false, 1);
 			std::cout << " ) {" << std::endl;
 			indent += 4;
 			parse(node->child(1), true, indent);
@@ -147,6 +147,12 @@ void Tree::parse(const Node *node, const bool withNewLine, int indent) const
 				std::cout << " ";
 			}
 			std::cout << "}" << std::endl;
+		}
+		else if (node->getType() == "argumentRequiring1" && node->numberOfChildren() == 1)
+		{
+			std::cout << "argumentRequiring1[Test](";
+			parse(node->child(0), false, 1);
+			std::cout << " )" << std::endl;
 		}
 		else
 		{
