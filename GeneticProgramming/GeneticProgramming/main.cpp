@@ -3,7 +3,7 @@
 
 int main()
 {
-	Tree tree("statements", 0);
+	Tree tree("expression", 0);
 	std::cout << "Original: " << std::endl;
 	tree.parse();
     
@@ -17,8 +17,8 @@ int main()
 	another_tree.importFrom("1.txt");
 	std::cout << std::endl << "After import:" << std::endl;
 	another_tree.parse();
-
 	//std::swap(*another_tree_root->child(0), *root->child(0));
 	std::cout << std::endl;
+	tree.print();
 	return 0;
 }
