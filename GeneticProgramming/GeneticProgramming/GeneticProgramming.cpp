@@ -32,5 +32,5 @@ void GeneticProgramming::environmentSelection()
 
 const double GeneticProgramming::evaluate_()
 {
-
+	return 0;
 }
