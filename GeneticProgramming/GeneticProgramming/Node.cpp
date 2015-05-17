@@ -5,8 +5,9 @@
 
 Node::Node(const std::string &type, const int level) : type_(type), level_(level), data_("Never_space")
 {
+	const int Expected_Height = 5;
 	// Growth
-	if (level < 5)
+	if (level < Expected_Height)
 	{
 		Ruleset syntax = Node::GrowthRule(type);
 		if (syntax.size())
@@ -61,8 +62,16 @@ const Ruleset &Node::GrowthRule(const std::string &type)
 	Rule["argumentRequiring0"] = Ruleset{ { "Expand", "null" } };
 	// Termninals One-way
 	Rule["elseStatement"] = Ruleset{ { "Expand", "statements" } };
-	Rule["argumentRequiring1"] = Ruleset{ { "Expand", "expression" } }; // issue
-	Rule["expression"] = Ruleset{ { "Expand", "null" } }; // issue
+	Rule["argumentRequiring1"] = Ruleset{ { "Expand", "expression" } };
+	Rule["expression"] = Ruleset{ { "Transform", "operator" }, { "Transform", "value" } };
+	Rule["operator"] = Ruleset{ { "Transform", "plus" }, { "Transform", "minus" }, { "Transform", "multipal" }, { "Transform", "divide" } };
+	Rule["value"] = Ruleset{ { "Transform", "constant" }, { "Transform", "variable" } };
+	Rule["constant"] = Ruleset{ { "Expand", "null" } };
+	Rule["variable"] = Ruleset{ { "Expand", "null" } };
+	Rule["plus"] = Ruleset{ {"Expand", "value", "value"} };
+	Rule["minus"] = Ruleset{ { "Expand", "value", "value" } };
+	Rule["multipal"] = Ruleset{ { "Expand", "value", "value" } };
+	Rule["divide"] = Ruleset{ { "Expand", "value", "value" } };
 	Rule["conditionalExpression"] = Ruleset{ { "Expand", "null" } }; // issue
 	return Rule[type];
 }
@@ -82,8 +91,16 @@ const Ruleset &Node::TerminalRule(const std::string &type)
 	Terminal["argumentRequiring0"] = Ruleset{ { "Expand", "null" } };
 	// Termninals One-way
 	Terminal["elseStatement"] = Ruleset{ { "Expand", "statements" } };
-	Terminal["argumentRequiring1"] = Ruleset{ { "Expand", "expression" } }; // issue
-	Terminal["expression"] = Ruleset{ { "Expand", "null" } }; // issue
+	Terminal["argumentRequiring1"] = Ruleset{ { "Expand", "expression" } };
+	Terminal["expression"] = Ruleset{ { "Transform", "operator" }, { "Transform", "value" } };
+	Terminal["operator"] = Ruleset{ { "Transform", "plus" }, { "Transform", "minus" }, { "Transform", "multipal" }, { "Transform", "divide" } };
+	Terminal["value"] = Ruleset{ { "Transform", "constant" }, { "Transform", "variable" } };
+	Terminal["constant"] = Ruleset{ { "Expand", "null" } };
+	Terminal["variable"] = Ruleset{ { "Expand", "null" } };
+	Terminal["plus"] = Ruleset{ { "Expand", "value", "value" } };
+	Terminal["minus"] = Ruleset{ { "Expand", "value", "value" } };
+	Terminal["multipal"] = Ruleset{ { "Expand", "value", "value" } };
+	Terminal["divide"] = Ruleset{ { "Expand", "value", "value" } };
 	Terminal["conditionalExpression"] = Ruleset{ { "Expand", "null" } }; // issue
 	return Terminal[type];
 }
