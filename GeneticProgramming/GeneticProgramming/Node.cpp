@@ -64,13 +64,13 @@ const Ruleset &Node::GrowthRule(const std::string &type)
 	Rule["elseStatement"] = Ruleset{ { "Expand", "statements" } };
 	Rule["argumentRequiring1"] = Ruleset{ { "Expand", "expression" } };
 	Rule["expression"] = Ruleset{ { "Transform", "operator" }, { "Transform", "value" } };
-	Rule["operator"] = Ruleset{ { "Transform", "plus" }, { "Transform", "minus" }, { "Transform", "multipal" }, { "Transform", "divide" } };
+	Rule["operator"] = Ruleset{ { "Transform", "plus" }, { "Transform", "minus" }, { "Transform", "multiple" }, { "Transform", "divide" } };
 	Rule["value"] = Ruleset{ { "Transform", "constant" }, { "Transform", "variable" } };
 	Rule["constant"] = Ruleset{ { "Expand", "null" } };
 	Rule["variable"] = Ruleset{ { "Expand", "null" } };
 	Rule["plus"] = Ruleset{ {"Expand", "value", "value"} };
 	Rule["minus"] = Ruleset{ { "Expand", "value", "value" } };
-	Rule["multipal"] = Ruleset{ { "Expand", "value", "value" } };
+	Rule["multiple"] = Ruleset{ { "Expand", "value", "value" } };
 	Rule["divide"] = Ruleset{ { "Expand", "value", "value" } };
 	Rule["conditionalExpression"] = Ruleset{ { "Expand", "null" } }; // issue
 	return Rule[type];

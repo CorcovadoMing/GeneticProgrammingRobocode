@@ -37,7 +37,24 @@
 
 	argumentRequiring1 -> expression
 
-	expression -> null //[UNDONE]
+	expression := operator
+	expression := value
+
+	operator := plus
+	operator := minus
+	operator := multiple
+	operator := divide
+
+	value := constant
+	value := variable
+
+	constant -> null (random real-number)
+	variable -> null (random choose from table)
+
+	plus -> value, value
+	minus -> value, value
+	multiple -> value, value
+	divide -> value, value
 
 	confitionalExpression -> null //[UNDONE]
 
@@ -67,6 +84,23 @@
 
 	argumentRequiring1 -> expression
 
-	expression -> null //[UNDONE]
+	expression := operator
+	expression := value
+
+	operator := plus
+	operator := minus
+	operator := multiple
+	operator := divide
+
+	value := constant
+	value := variable
+
+	constant -> null (random real-number)
+	variable -> null (random choose from table)
+
+	plus -> value, value
+	minus -> value, value
+	multiple -> value, value
+	divide -> value, value
 
 	confitionalExpression -> null //[UNDONE]
