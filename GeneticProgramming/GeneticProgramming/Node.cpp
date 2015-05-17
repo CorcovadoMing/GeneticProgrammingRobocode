@@ -63,7 +63,7 @@ const Ruleset &Node::GrowthRule(const std::string &type)
 	// Termninals One-way
 	Rule["elseStatement"] = Ruleset{ { "Expand", "statements" } };
 	Rule["argumentRequiring1"] = Ruleset{ { "Expand", "expression" } };
-	Rule["expression"] = Ruleset{ { "Transform", "expression", "operator", "expression" }, { "Transform", "value" } };
+	Rule["expression"] = Ruleset{ { "Expand", "expression", "operator", "expression" }, { "Transform", "value" } };
 	Rule["operator"] = Ruleset{ { "Transform", "plus" }, { "Transform", "minus" }, { "Transform", "multiple" }, { "Transform", "divide" } };
 	Rule["value"] = Ruleset{ { "Transform", "constant" }, { "Transform", "variable" } };
 	Rule["constant"] = Ruleset{ { "Expand", "null" } };

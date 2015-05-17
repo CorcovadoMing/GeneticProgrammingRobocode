@@ -76,6 +76,8 @@ void Tree::print(const Node *node) const
 
 void Tree::parse() const
 {
+	parse(&root_);
+	/*
 	if (root_.willExpand())
 	{
 		std::cout << root_.getType() << std::endl;
@@ -84,6 +86,7 @@ void Tree::parse() const
 	{
 		parse(root_.child(i));
 	}
+	*/
 }
 
 void Tree::parse(const Node *node, const bool withNewLine, int indent) const
@@ -153,6 +156,15 @@ void Tree::parse(const Node *node, const bool withNewLine, int indent) const
 			std::cout << "argumentRequiring1[Test](";
 			parse(node->child(0), false, 1);
 			std::cout << " )" << std::endl;
+		}
+		else if (node->getType() == "expression")
+		{
+			std::cout << "(";
+			for (std::size_t i = 0; i < node->numberOfChildren(); i += 1)
+			{
+				parse(node->child(i), false, 1);
+			}
+			std::cout << " )";
 		}
 		else
 		{
