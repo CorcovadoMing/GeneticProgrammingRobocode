@@ -64,20 +64,20 @@ const Ruleset &Node::GrowthRule(const std::string &type)
 	Rule["elseStatement"] = Ruleset{ { "Expand", "statements" } };
 	Rule["argumentRequiring1"] = Ruleset{ { "Expand", "expression" } };
 	Rule["expression"] = Ruleset{ { "Expand", "expression", "operator", "expression" }, { "Transform", "value" } };
-	Rule["operator"] = Ruleset{ { "Transform", "plus" }, { "Transform", "minus" }, { "Transform", "multiple" }, { "Transform", "divide" } };
+	Rule["operator"] = Ruleset{ { "Transform", "+" }, { "Transform", "-" }, { "Transform", "*" }, { "Transform", "/" } };
 	Rule["value"] = Ruleset{ { "Transform", "constant" }, { "Transform", "variable" } };
 	Rule["constant"] = Ruleset{ { "Expand", "null" } };
 	Rule["variable"] = Ruleset{ { "Expand", "null" } };
-	Rule["plus"] = Ruleset{ { "Expand", "null" } };
-	Rule["minus"] = Ruleset{ { "Expand", "null" } };
-	Rule["multiple"] = Ruleset{ { "Expand", "null" } };
-	Rule["divide"] = Ruleset{ { "Expand", "null" } };
+	Rule["+"] = Ruleset{ { "Expand", "null" } };
+	Rule["-"] = Ruleset{ { "Expand", "null" } };
+	Rule["*"] = Ruleset{ { "Expand", "null" } };
+	Rule["/"] = Ruleset{ { "Expand", "null" } };
 	Rule["conditionalExpression"] = Ruleset{ { "Transform", "value", "compareOperator", "value" } };
-	Rule["compareOperator"] = Ruleset{ { "Transform", "greater" }, { "Transform", "lesser" }, { "Transform", "equal" }, { "Transform", "notEqual" } };
-	Rule["greater"] = Ruleset{ { "Expand", "null" } };
-	Rule["lesser"] = Ruleset{ { "Expand", "null" } };
-	Rule["equal"] = Ruleset{ { "Expand", "null" } };
-	Rule["notEqual"] = Ruleset{ { "Expand", "null" } };
+	Rule["compareOperator"] = Ruleset{ { "Transform", ">" }, { "Transform", "<" }, { "Transform", "==" }, { "Transform", "!=" } };
+	Rule[">"] = Ruleset{ { "Expand", "null" } };
+	Rule["<"] = Ruleset{ { "Expand", "null" } };
+	Rule["=="] = Ruleset{ { "Expand", "null" } };
+	Rule["!="] = Ruleset{ { "Expand", "null" } };
 	return Rule[type];
 }
 
@@ -98,20 +98,20 @@ const Ruleset &Node::TerminalRule(const std::string &type)
 	Terminal["elseStatement"] = Ruleset{ { "Expand", "statements" } };
 	Terminal["argumentRequiring1"] = Ruleset{ { "Expand", "expression" } };
 	Terminal["expression"] = Ruleset{ { "Transform", "value" } };
-	Terminal["operator"] = Ruleset{ { "Transform", "plus" }, { "Transform", "minus" }, { "Transform", "multiple" }, { "Transform", "divide" } };
+	Terminal["operator"] = Ruleset{ { "Transform", "+" }, { "Transform", "-" }, { "Transform", "*" }, { "Transform", "/" } };
 	Terminal["value"] = Ruleset{ { "Transform", "constant" }, { "Transform", "variable" } };
 	Terminal["constant"] = Ruleset{ { "Expand", "null" } };
 	Terminal["variable"] = Ruleset{ { "Expand", "null" } };
-	Terminal["plus"] = Ruleset{ { "Expand", "null" } };
-	Terminal["minus"] = Ruleset{ { "Expand", "null" } };
-	Terminal["multiple"] = Ruleset{ { "Expand", "null" } };
-	Terminal["divide"] = Ruleset{ { "Expand", "null" } };
+	Terminal["+"] = Ruleset{ { "Expand", "null" } };
+	Terminal["-"] = Ruleset{ { "Expand", "null" } };
+	Terminal["*"] = Ruleset{ { "Expand", "null" } };
+	Terminal["/"] = Ruleset{ { "Expand", "null" } };
 	Terminal["conditionalExpression"] = Ruleset{ { "Transform", "value", "compareOperator", "value" } };
-	Terminal["compareOperator"] = Ruleset{ { "Transform", "greater" }, { "Transform", "lesser" }, { "Transform", "equal" }, { "Transform", "notEqual" } };
-	Terminal["greater"] = Ruleset{ { "Expand", "null" } };
-	Terminal["lesser"] = Ruleset{ { "Expand", "null" } };
-	Terminal["equal"] = Ruleset{ { "Expand", "null" } };
-	Terminal["notEqual"] = Ruleset{ { "Expand", "null" } };
+	Terminal["compareOperator"] = Ruleset{ { "Transform", ">" }, { "Transform", "<" }, { "Transform", "==" }, { "Transform", "!=" } };
+	Terminal[">"] = Ruleset{ { "Expand", "null" } };
+	Terminal["<"] = Ruleset{ { "Expand", "null" } };
+	Terminal["=="] = Ruleset{ { "Expand", "null" } };
+	Terminal["!="] = Ruleset{ { "Expand", "null" } };
 	return Terminal[type];
 }
 

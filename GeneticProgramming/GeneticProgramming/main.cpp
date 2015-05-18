@@ -3,7 +3,7 @@
 
 int main()
 {
-	Tree tree("expression", 0);
+	Tree tree("statements", 0);
 	tree.parse();
 	std::cout << std::endl;
 
@@ -24,6 +24,5 @@ int main()
 	//std::swap(*another_tree_root->child(0), *root->child(0));
 	std::cout << std::endl;
 	*/
-	tree.print();
 	return 0;
 }
