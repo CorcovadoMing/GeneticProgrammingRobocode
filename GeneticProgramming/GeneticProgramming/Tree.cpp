@@ -10,6 +10,7 @@ void Tree::exportTo(const char *filename) const
 {
 	std::ofstream fout;
 	fout.open(filename);
+	fout << getGPno() << std::endl;
 	fprint(fout, this->root());
 	fout.close();
 }
@@ -17,10 +18,10 @@ void Tree::exportTo(const char *filename) const
 void Tree::fprint(std::ofstream &fout, const Node *node) const
 {
 	fout << node->getLevel() << " "
-	     << node->getType() << " "
-	     << node->getData() << " "
-	     << node->numberOfChildren() << " "
-	     << node->willExpand() << std::endl;
+		 << node->getType() << " "
+		 << node->getData() << " "
+		 << node->numberOfChildren() << " "
+		 << node->willExpand() << std::endl;
 
 	for (std::size_t i = 0; i < node->numberOfChildren(); i += 1)
 	{
@@ -32,6 +33,9 @@ void Tree::importFrom(const char *filename)
 {
 	std::ifstream fin;
 	fin.open(filename);
+	int gpn;
+	fin >> gpn;
+	setGPno(gpn);
 	fscan(fin, root());
 	fin.close();
 }
@@ -54,6 +58,7 @@ void Tree::fscan(std::ifstream &fin, Node *node)
 void Tree::print() const
 {
 	std::cout << "[Root " << root_.getLevel() << "] " << root_.getType() << " " << root_.willExpand() << std::endl;
+
 	for (std::size_t i = 0; i < root_.numberOfChildren(); i += 1)
 	{
 		print(root_.child(i));
@@ -63,11 +68,14 @@ void Tree::print() const
 void Tree::print(const Node *node) const
 {
 	const std::string space = "  ";
+
 	for (std::size_t i = 0; i < node->getLevel(); i += 1)
 	{
 		std::cout << space;
 	}
+
 	std::cout << "[Node " << node->getLevel() << "] " << node->getType() << " " << node->willExpand() << std::endl;
+
 	for (std::size_t i = 0; i < node->numberOfChildren(); i += 1)
 	{
 		print(node->child(i));
@@ -87,6 +95,7 @@ void Tree::parse(const Node *node, const bool withNewLine, int indent) const
 		{
 			std::cout << " ";
 		}
+
 		if (node->getType() == "whileStatement" && node->numberOfChildren() == 2)
 		{
 			std::cout << "while (";
@@ -95,10 +104,12 @@ void Tree::parse(const Node *node, const bool withNewLine, int indent) const
 			indent += 4;
 			parse(node->child(1), true, indent);
 			indent -= 4;
+
 			for (std::size_t i = 0; i < indent; i += 1)
 			{
 				std::cout << " ";
 			}
+
 			std::cout << "}" << std::endl;
 		}
 		else if (node->getType() == "ifStatement" && node->numberOfChildren() == 2)
@@ -109,10 +120,12 @@ void Tree::parse(const Node *node, const bool withNewLine, int indent) const
 			indent += 4;
 			parse(node->child(1), true, indent);
 			indent -= 4;
+
 			for (std::size_t i = 0; i < indent; i += 1)
 			{
 				std::cout << " ";
 			}
+
 			std::cout << "}" << std::endl;
 		}
 		else if (node->getType() == "elseIfStatement" && node->numberOfChildren() == 2)
@@ -123,10 +136,12 @@ void Tree::parse(const Node *node, const bool withNewLine, int indent) const
 			indent += 4;
 			parse(node->child(1), true, indent);
 			indent -= 4;
+
 			for (std::size_t i = 0; i < indent; i += 1)
 			{
 				std::cout << " ";
 			}
+
 			std::cout << "}" << std::endl;
 		}
 		else if (node->getType() == "elseStatement" && node->numberOfChildren() == 1)
@@ -135,10 +150,12 @@ void Tree::parse(const Node *node, const bool withNewLine, int indent) const
 			indent += 4;
 			parse(node->child(0), true, indent);
 			indent -= 4;
+
 			for (std::size_t i = 0; i < indent; i += 1)
 			{
 				std::cout << " ";
 			}
+
 			std::cout << "}" << std::endl;
 		}
 		else if (node->getType() == "argumentRequiring1" && node->numberOfChildren() == 1)
@@ -150,10 +167,12 @@ void Tree::parse(const Node *node, const bool withNewLine, int indent) const
 		else if (node->getType() == "expression")
 		{
 			std::cout << "(";
+
 			for (std::size_t i = 0; i < node->numberOfChildren(); i += 1)
 			{
 				parse(node->child(i), false, 1);
 			}
+
 			std::cout << " )";
 		}
 		else
@@ -180,6 +199,7 @@ void Tree::parse(const Node *node, const bool withNewLine, int indent) const
 					std::cout << node->getType();
 				}
 			}
+
 			for (std::size_t i = 0; i < node->numberOfChildren(); i += 1)
 			{
 				parse(node->child(i), withNewLine, indent);
