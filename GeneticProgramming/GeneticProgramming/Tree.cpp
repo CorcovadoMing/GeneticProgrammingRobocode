@@ -143,7 +143,7 @@ void Tree::parse(const Node *node, const bool withNewLine, int indent) const
 		}
 		else if (node->getType() == "argumentRequiring1" && node->numberOfChildren() == 1)
 		{
-			std::cout << "argumentRequiring1[Test](";
+			std::cout << "argumentRequiring1" << "(";
 			parse(node->child(0), false, 1);
 			std::cout << " )" << std::endl;
 		}
