@@ -160,11 +160,25 @@ void Tree::parse(const Node *node, const bool withNewLine, int indent) const
 		{
 			if (withNewLine)
 			{
-				std::cout << node->getType() << std::endl;
+				if (node->getType() == "constant")
+				{
+					std::cout << node->getData() << std::endl;
+				}
+				else
+				{
+					std::cout << node->getType() << std::endl;
+				}
 			}
 			else
 			{
-				std::cout << node->getType();
+				if (node->getType() == "constant")
+				{
+					std::cout << node->getData();
+				}
+				else
+				{
+					std::cout << node->getType();
+				}
 			}
 			for (std::size_t i = 0; i < node->numberOfChildren(); i += 1)
 			{

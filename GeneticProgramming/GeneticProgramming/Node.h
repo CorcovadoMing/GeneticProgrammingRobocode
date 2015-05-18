@@ -9,7 +9,7 @@ typedef std::vector< std::vector<std::string> > Ruleset;
 class Node
 {
 public:
-	Node(const std::string &, const int);
+	Node(const std::string &, const int, const std::string &data = "null");
 	Node();
 
 	const std::size_t numberOfChildren() const;

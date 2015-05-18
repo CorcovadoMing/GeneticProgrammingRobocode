@@ -2,10 +2,12 @@
 #include "RandomRange.h"
 #include <map>
 #include <iostream>
+#include <sstream>
 
-Node::Node(const std::string &type, const int level) : type_(type), level_(level), data_("Never_space")
+Node::Node(const std::string &type, const int level, const std::string &data) : type_(type), level_(level), data_(data)
 {
 	const int Expected_Height = 5;
+	const double Constant_range = 100;
 	// Growth
 	if (level < Expected_Height)
 	{
@@ -18,7 +20,17 @@ Node::Node(const std::string &type, const int level) : type_(type), level_(level
 			{
 				if (syntax[index][i] != "null")
 				{
-					child_.push_back(Node(syntax[index][i], level + 1));
+					if (syntax[index][i] == "constant")
+					{
+						std::ostringstream strs;
+						strs << RandomRange::random<double>(-Constant_range, Constant_range);
+						std::string data = strs.str();
+						child_.push_back(Node(syntax[index][i], level + 1, data));
+					}
+					else
+					{
+						child_.push_back(Node(syntax[index][i], level + 1));
+					}
 				}
 			}
 		}
@@ -35,7 +47,17 @@ Node::Node(const std::string &type, const int level) : type_(type), level_(level
 			{
 				if (syntax[index][i] != "null")
 				{
-					child_.push_back(Node(syntax[index][i], level + 1));
+					if (syntax[index][i] == "constant")
+					{
+						std::ostringstream strs;
+						strs << RandomRange::random<double>(-Constant_range, Constant_range);
+						std::string data = strs.str();
+						child_.push_back(Node(syntax[index][i], level + 1, data));
+					}
+					else
+					{
+						child_.push_back(Node(syntax[index][i], level + 1));
+					}
 				}
 			}
 		}
