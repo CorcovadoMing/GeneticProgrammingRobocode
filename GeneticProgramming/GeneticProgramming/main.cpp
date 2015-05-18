@@ -4,6 +4,8 @@
 int main()
 {
 	Tree tree("statements", 0, 0);
+	tree.exportTo("iotest.txt");
+	tree.importFrom("iotest.txt");
 	tree.parse();
 	std::cout << std::endl;
 
