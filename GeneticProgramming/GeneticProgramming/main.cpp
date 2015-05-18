@@ -3,7 +3,7 @@
 
 int main()
 {
-	Tree tree("statements", 0);
+	Tree tree("statements", 0, 0);
 	tree.parse();
 	std::cout << std::endl;
 

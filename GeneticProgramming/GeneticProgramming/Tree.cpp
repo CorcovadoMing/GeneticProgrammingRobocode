@@ -2,7 +2,7 @@
 #include <iostream>
 #include <fstream>
 
-Tree::Tree(const std::string &type, const int level) : root_(type, level)
+Tree::Tree(const std::string &type, const int level, const int GP_no) : root_(type, level), GP_no_(GP_no)
 {
 }
 
@@ -77,16 +77,6 @@ void Tree::print(const Node *node) const
 void Tree::parse() const
 {
 	parse(&root_);
-	/*
-	if (root_.willExpand())
-	{
-		std::cout << root_.getType() << std::endl;
-	}
-	for (std::size_t i = 0; i < root_.numberOfChildren(); i += 1)
-	{
-		parse(root_.child(i));
-	}
-	*/
 }
 
 void Tree::parse(const Node *node, const bool withNewLine, int indent) const
