@@ -15,9 +15,10 @@ public:
     void importFrom(const char *);
     void fscan(std::ifstream &, Node *);
 	const int getGPno() const { return GP_no_; }
+	void setGPno(const int GP_no) { GP_no_ = GP_no; }
 private:
     void print(const Node *) const;
     void parse(const Node *, const bool withNewLine = true, int indent = 0) const;
     Node root_;
-	const int GP_no_;
+	int GP_no_;
 };
