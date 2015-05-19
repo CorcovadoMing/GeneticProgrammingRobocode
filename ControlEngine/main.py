@@ -2,11 +2,10 @@ __author__ = 'Ming'
 
 from shell import *
 import pika
-import time
-
 
 def simulate():
-    out, err = shell_command(["D:\\Robocode\\robocode.bat", "-battle", "battle\\intro.battle", "-nodisplay", "-results", "result\\result.txt"])
+    out, err = shell_command(["D:\\Robocode\\robocode.bat", "-battle", "battle\\intro.battle", "-nodisplay", "-results",
+                              "result\\result.txt"])
     print out
     return parse_result("result\\result.txt")
 
@@ -33,23 +32,29 @@ def parse_result(filename):
     process_file.close()
     return records
 
-if __name__ == '__main__':
+
+def serve():
     connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost'))
     channel = connection.channel()
 
-    channel.queue_declare(queue='robocode_queue', durable=True)
-    print ' [*] Waiting for messages. To exit press CTRL+C'
+    channel.exchange_declare(exchange='control', type='fanout')
+    result = channel.queue_declare(exclusive=True)
+    queue_name = result.method.queue
+    channel.queue_bind(exchange='control', queue=queue_name)
 
     def callback(ch, method, properties, body):
-        print " [x] Received %r" % (body,)
-        if str(body) == "simulate":
-            records = simulate()
-            for tank in records:
-                print tank
-        time.sleep(body.count('.'))
-        print " [x] Done"
-        ch.basic_ack(delivery_tag=method.delivery_tag)
+        print " [x] %r" % (body,)
+        connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost'))
+        channel = connection.channel()
+        channel.exchange_declare(exchange='gp', type='fanout')
+        message = "TEST"
+        channel.basic_publish(exchange='gp', routing_key='', body=message)
+        print " [x] Sent %r" % (message,)
+        connection.close()
 
-    channel.basic_qos(prefetch_count=1)
-    channel.basic_consume(callback, queue='robocode_queue')
+    channel.basic_consume(callback, queue=queue_name, no_ack=True)
     channel.start_consuming()
+
+
+if __name__ == '__main__':
+    serve()
