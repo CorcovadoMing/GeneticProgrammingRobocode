@@ -29,6 +29,7 @@ int main()
 	*/
 
 	GeneticProgramming gp(10, 0.4); // population_size, mutation_rate
+	gp.matingSelection();
 
 	return 0;
 }

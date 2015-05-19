@@ -1,5 +1,5 @@
-#include "Node.h"
 #include "RandomRange.h"
+#include "Node.h"
 #include <map>
 #include <iostream>
 #include <sstream>

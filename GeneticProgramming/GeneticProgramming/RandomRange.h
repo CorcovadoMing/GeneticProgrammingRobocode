@@ -3,10 +3,6 @@
 
 namespace RandomRange
 {
-
-	std::random_device rd;
-	std::mt19937 RandomGenerator(rd());
-
 	template <class T>
 	struct TypeIsInt
 	{
@@ -22,6 +18,8 @@ namespace RandomRange
 	template <class T>
 	T random(T min, T max)
 	{
+		std::random_device rd;
+		std::mt19937 RandomGenerator(rd());
 		if (TypeIsInt<T>::value)
 		{
 			std::uniform_int_distribution<int> uniform_int(min, max);
