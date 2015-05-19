@@ -26,6 +26,16 @@ public class Hand extends AdvancedRobot
 		}
 	}
 
+	/* Common:
+	target.x
+	target.y
+	target.bearing
+	target.head
+	target.speed
+	target.distance
+	target.energy
+	*/
+
 	void doFire() {
 		/* GP #1 statements */
 
@@ -83,6 +93,7 @@ public class Hand extends AdvancedRobot
 		long time = getTime() + (int)(target.distance/(20-(3*firePower)));
 		double gunOffset = getGunHeadingRadians() - absbearing(getX(),getY(),target.guessX(time),target.guessY(time));
 		setTurnGunLeftRadians(NormaliseBearing(gunOffset));
+		doFire();
 	}
 
 	double NormaliseBearing(double ang) {
@@ -146,7 +157,6 @@ public class Hand extends AdvancedRobot
 			target.distance = e.getDistance();
 			target.energy = e.getEnergy();
 		}
-		doFire();
 	}
 
 	public void onRobotDeath(RobotDeathEvent e) {
