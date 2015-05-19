@@ -33,6 +33,5 @@ int main()
 	gp.crossover();
 	gp.mutation();
 	gp.environmentSelection();
-
 	return 0;
 }
