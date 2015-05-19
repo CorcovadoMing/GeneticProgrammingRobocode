@@ -27,16 +27,45 @@ public class Hand extends AdvancedRobot
 	}
 
 	void doFire() {
-		/* GP statements */
+		/* GP #1 statements */
+
+		/* List
+		fire(1~3)
+		*/
+
+
+		/*
 		if (target.distance < 150 || target.energy < 30) {
 			fire(3);
 		}
+		*/
 	}
 
 	void doMovement() {
-		/* GP #1 Statements*/
-		setAhead(direction*100);
-		setTurnRightRadians(target.bearing + PI/3 + PI * r.nextDouble(); /* GP #2 Expression*/);
+		/* GP #2 Statements */
+
+		/* List
+		setAhead(expression)
+		setBack(expression)
+		setTurnRightRadians(expression)
+		*/
+
+
+		//setAhead(direction*100);
+		//setTurnRightRadians(target.bearing + PI/3 + PI * r.nextDouble());
+	}
+
+	public void onHitWall(HitWallEvent e) {
+		/* GP #3 Statements */
+
+		/* List
+		setAhead(expression)
+		setBack(expression)
+		*/
+	}
+
+	public void reverseDirection() {
+		direction = direction * -1;
 	}
 	
 	void doScanner() {
@@ -102,11 +131,6 @@ public class Hand extends AdvancedRobot
 			return 2.0*Math.PI - Math.asin( -xo / h );
 		}
 		return 0;
-	}
-
-	public void onHitWall(HitWallEvent e) {
-		direction = direction * -1;   
-		/* GP #4 Statement*/
 	}
 	
 	public void onScannedRobot(ScannedRobotEvent e) {

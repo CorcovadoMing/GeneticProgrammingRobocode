@@ -10,5 +10,6 @@ public:
 	void environmentSelection();
 private:
 	const double evaluate_();
+	const double mutation_rate_;
 };
 
