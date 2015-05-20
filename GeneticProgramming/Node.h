@@ -16,9 +16,9 @@ public:
 	void addChild(const Node &);
 	const Node *child(const std::size_t) const;
 	Node *child(const std::size_t);
-
 	const unsigned getLevel() const;
 	const bool willExpand() const;
+	void setData(const std::string &data) { data_ = data; }
 	const std::string &getData() const;
 	const std::string &getType() const;
 	std::vector<Node> &getChildrenNodes();
