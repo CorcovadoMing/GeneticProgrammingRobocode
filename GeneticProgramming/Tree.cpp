@@ -1,6 +1,8 @@
 #include "Tree.h"
+#include "RandomRange.h"
 #include <iostream>
 #include <fstream>
+
 
 Tree::Tree(const std::string &type, const int level, const int GP_no) : root_(type, level), GP_no_(GP_no)
 {
@@ -82,12 +84,12 @@ void Tree::print(const Node *node) const
 	}
 }
 
-void Tree::parse() const
+void Tree::parse()
 {
 	parse(&root_);
 }
 
-void Tree::parse(const Node *node, const bool withNewLine, int indent) const
+void Tree::parse(Node *node, const bool withNewLine, int indent)
 {
 	if (node->willExpand())
 	{
@@ -160,7 +162,8 @@ void Tree::parse(const Node *node, const bool withNewLine, int indent) const
 		}
 		else if (node->getType() == "argumentRequiring1" && node->numberOfChildren() == 1)
 		{
-			std::cout << "argumentRequiring1" << "(";
+			node->setData(Tree::randomArgumentRequiring1(GP_no_));
+			std::cout << node->getData() << "(";
 			parse(node->child(0), false, 1);
 			std::cout << " );" << std::endl;
 		}
@@ -183,6 +186,11 @@ void Tree::parse(const Node *node, const bool withNewLine, int indent) const
 				{
 					std::cout << node->getData() << ";" << std::endl;
 				}
+				else if (node->getType() == "variable")
+				{
+					node->setData(Tree::randomVariable(GP_no_));
+					std::cout << node->getData() << ";" << std::endl;
+				}
 				else
 				{
 					std::cout << node->getType() << ";" << std::endl;
@@ -192,6 +200,11 @@ void Tree::parse(const Node *node, const bool withNewLine, int indent) const
 			{
 				if (node->getType() == "constant")
 				{
+					std::cout << node->getData();
+				}
+				else if (node->getType() == "variable")
+				{
+					node->setData(Tree::randomVariable(GP_no_));
 					std::cout << node->getData();
 				}
 				else
@@ -213,5 +226,29 @@ void Tree::parse(const Node *node, const bool withNewLine, int indent) const
 			parse(node->child(i), withNewLine, indent);
 		}
 	}
+}
+
+const std::string &Tree::randomVariable(const int type)
+{
+	static Table table(3);
+	table[0].push_back("target.x");
+	table[0].push_back("target.y");
+	table[0].push_back("target.bearing");
+	table[0].push_back("target.head");
+	table[0].push_back("target.speed");
+	table[0].push_back("target.distance");
+	table[0].push_back("target.energy");
+
+	const std::size_t index = RandomRange::random<int>(0, table[type].size() - 1);
+	return table[type][index];
+}
+	
+const std::string &Tree::randomArgumentRequiring1(const int type)
+{
+	static Table table(3);
+	table[0].push_back("fire");
+
+	const std::size_t index = RandomRange::random<int>(0, table[type].size() - 1);
+	return table[type][index];
 }
 
