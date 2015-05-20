@@ -191,6 +191,11 @@ void Tree::parse(Node *node, const bool withNewLine, int indent)
 					node->setData(Tree::randomVariable(GP_no_));
 					std::cout << node->getData() << ";" << std::endl;
 				}
+				else if (node->getType() == "argumentRequiring0")
+				{
+					node->setData(Tree::randomArgumentRequiring0(GP_no_));
+					std::cout << node->getData() << ";" << std::endl;
+				}
 				else
 				{
 					std::cout << node->getType() << ";" << std::endl;
@@ -205,6 +210,11 @@ void Tree::parse(Node *node, const bool withNewLine, int indent)
 				else if (node->getType() == "variable")
 				{
 					node->setData(Tree::randomVariable(GP_no_));
+					std::cout << node->getData();
+				}
+				else if (node->getType() == "argumentRequiring0")
+				{
+					node->setData(Tree::randomArgumentRequiring0(GP_no_));
 					std::cout << node->getData();
 				}
 				else
@@ -243,6 +253,15 @@ const std::string &Tree::randomVariable(const int type)
 	return table[type][index];
 }
 	
+const std::string &Tree::randomArgumentRequiring0(const int type)
+{
+	static Table table(3);
+	table[0].push_back("//nothing");
+
+	const std::size_t index = RandomRange::random<int>(0, table[type].size() - 1);
+	return table[type][index];
+}
+
 const std::string &Tree::randomArgumentRequiring1(const int type)
 {
 	static Table table(3);
