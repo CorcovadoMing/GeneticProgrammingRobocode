@@ -64,11 +64,6 @@ Node::Node(const std::string &type, const int level, const std::string &data) : 
 	}
 }
 
-Node::Node()
-{
-
-}
-
 const Ruleset &Node::GrowthRule(const std::string &type)
 {
 	static std::map<std::string, Ruleset> Rule;

@@ -10,7 +10,7 @@ class Node
 {
 public:
 	Node(const std::string &, const int, const std::string &data = "null");
-	Node();
+	Node() {}
 
 	const std::size_t numberOfChildren() const;
 	void addChild(const Node &);
