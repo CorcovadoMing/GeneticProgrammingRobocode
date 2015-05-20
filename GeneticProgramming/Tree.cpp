@@ -162,7 +162,7 @@ void Tree::parse(const Node *node, const bool withNewLine, int indent) const
 		{
 			std::cout << "argumentRequiring1" << "(";
 			parse(node->child(0), false, 1);
-			std::cout << " )" << std::endl;
+			std::cout << " );" << std::endl;
 		}
 		else if (node->getType() == "expression")
 		{
@@ -181,11 +181,11 @@ void Tree::parse(const Node *node, const bool withNewLine, int indent) const
 			{
 				if (node->getType() == "constant")
 				{
-					std::cout << node->getData() << std::endl;
+					std::cout << node->getData() << ";" << std::endl;
 				}
 				else
 				{
-					std::cout << node->getType() << std::endl;
+					std::cout << node->getType() << ";" << std::endl;
 				}
 			}
 			else
