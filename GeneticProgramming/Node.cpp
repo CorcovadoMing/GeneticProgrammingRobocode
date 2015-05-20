@@ -94,10 +94,7 @@ const Ruleset &Node::GrowthRule(const std::string &type)
 	Rule["-"] = Ruleset{ { "Expand", "null" } };
 	Rule["*"] = Ruleset{ { "Expand", "null" } };
 	Rule["/"] = Ruleset{ { "Expand", "null" } };
-	Rule["conditionalExpression"] = Ruleset{ { "Transform", "variable", "compareOperator", "value" }, {"Transform", "variable", "compareOperator", "value", "connector", "variable", "compareOperator", "value"} };
-	Rule["connector"] = Ruleset{ { "Transform", "&&" }, { "Transform", "||" } };
-	Rule["&&"] = Ruleset{ { "Expand", "null" } };
-	Rule["||"] = Ruleset{ { "Expand", "null" } };
+	Rule["conditionalExpression"] = Ruleset{ { "Transform", "value", "compareOperator", "value" } };
 	Rule["compareOperator"] = Ruleset{ { "Transform", ">" }, { "Transform", "<" }, { "Transform", "==" }, { "Transform", "!=" } };
 	Rule[">"] = Ruleset{ { "Expand", "null" } };
 	Rule["<"] = Ruleset{ { "Expand", "null" } };
@@ -131,10 +128,7 @@ const Ruleset &Node::TerminalRule(const std::string &type)
 	Terminal["-"] = Ruleset{ { "Expand", "null" } };
 	Terminal["*"] = Ruleset{ { "Expand", "null" } };
 	Terminal["/"] = Ruleset{ { "Expand", "null" } };
-	Terminal["conditionalExpression"] = Ruleset{ { "Transform", "variable", "compareOperator", "value" }, {"Transform", "variable", "compareOperator", "value", "connector", "variable", "compareOperator", "value"} };
-	Terminal["connector"] = Ruleset{ { "Transform", "&&" }, { "Transform", "||" } };
-	Terminal["&&"] = Ruleset{ { "Expand", "null" } };
-	Terminal["||"] = Ruleset{ { "Expand", "null" } };
+	Terminal["conditionalExpression"] = Ruleset{ { "Transform", "value", "compareOperator", "value" } };
 	Terminal["compareOperator"] = Ruleset{ { "Transform", ">" }, { "Transform", "<" }, { "Transform", "==" }, { "Transform", "!=" } };
 	Terminal[">"] = Ruleset{ { "Expand", "null" } };
 	Terminal["<"] = Ruleset{ { "Expand", "null" } };
