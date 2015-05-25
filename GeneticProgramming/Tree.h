@@ -18,6 +18,8 @@ public:
 	void fscan(std::ifstream &, Node *);
 	const int getGPno() const { return GP_no_; }
 	void setGPno(const int GP_no) { GP_no_ = GP_no; }
+	void makeRobot(const std::string &);
+	
 private:
 	void print(const Node *) const;
 	void parse(Node *, const bool withNewLine = true, int indent = 0);

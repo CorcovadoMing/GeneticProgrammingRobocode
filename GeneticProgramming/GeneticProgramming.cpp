@@ -70,6 +70,8 @@ void GeneticProgramming::evaluate_populations_()
 	}
 }
 
+// AMQP communication
+
 void send()
 {
 	Channel::ptr_t channel = Channel::Create("localhost");

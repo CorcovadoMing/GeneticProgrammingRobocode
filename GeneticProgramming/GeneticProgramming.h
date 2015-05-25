@@ -7,12 +7,14 @@ class GeneticProgramming
 	typedef std::vector<Tree> Chromosome;
 	typedef std::vector<Chromosome> Population;
 	typedef std::vector<Population> PopulationGroup;
+	
 public:
 	GeneticProgramming(const int, const double);
 	void matingSelection();
 	void crossover();
 	void mutation();
 	void environmentSelection();
+
 private:
 	void evaluate_populations_();
 	const double evaluate_(const Chromosome &);

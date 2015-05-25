@@ -271,3 +271,7 @@ const std::string &Tree::randomArgumentRequiring1(const int type)
 	return table[type][index];
 }
 
+void Tree::makeRobot(const std::string &output_file)
+{
+	
+}
