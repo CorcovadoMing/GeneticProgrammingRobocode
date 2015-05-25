@@ -10,6 +10,7 @@ class Node
 {
 public:
 	Node(const std::string &, const int, const std::string &data = "null");
+	// type, max level, data
 	Node() {}
 
 	const std::size_t numberOfChildren() const;
@@ -26,7 +27,7 @@ public:
 	void reset(const int, const std::string &, const std::string &, const bool);
 
 private:
-	unsigned level_;
+	unsigned level_; //distance between root node. e.g. root node level_ = 0.
 	bool need_expand_;
 	std::string data_;
 	std::string type_;

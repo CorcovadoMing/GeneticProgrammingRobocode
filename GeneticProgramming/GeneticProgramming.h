@@ -14,8 +14,8 @@ public:
 	void mutation();
 	void environmentSelection();
 private:
-	void evaluate_populations_();
-	const double evaluate_(const Chromosome &);
+	//void evaluate_populations_();
+	//const double evaluate_(const Chromosome &);
 
 	PopulationGroup population_;
 	std::vector< std::vector<double> > fitness_;

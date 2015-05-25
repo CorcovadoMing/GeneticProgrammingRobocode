@@ -7,7 +7,7 @@ int main()
 	Tree tree("statements", 0, 0);
 	//tree.exportTo("iotest.txt");
 	//tree.importFrom("iotest.txt");
-	tree.parse();
+	tree.print();
 	std::cout << std::endl;
 	
 	/*
@@ -29,6 +29,7 @@ int main()
 	*/
 
 	GeneticProgramming gp(10, 0.4); // population_size, mutation_rate
+
 	//gp.matingSelection();
 	//gp.crossover();
 	//gp.mutation();
