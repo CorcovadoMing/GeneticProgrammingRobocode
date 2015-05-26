@@ -18,6 +18,7 @@ public:
 private:
 	void evaluate_populations_();
 	const double evaluate_(const Chromosome &);
+	void makeRobot(const Chromosome &, std::ostream &);
 
 	PopulationGroup population_;
 	std::vector< std::vector<double> > fitness_;

@@ -70,6 +70,13 @@ void GeneticProgramming::evaluate_populations_()
 	}
 }
 
+
+void GeneticProgramming::makeRobot(const Chromosome &chromosome, std::ostream &fout)
+{
+	
+}
+
+
 // AMQP communication
 
 void send()
