@@ -1,5 +1,6 @@
 #include "GeneticProgramming.h"
 #include <iostream>
+#include <fstream>
 
 int main()
 {
@@ -7,8 +8,12 @@ int main()
 	Tree tree("statements", 0, 0);
 	//tree.exportTo("iotest.txt");
 	//tree.importFrom("iotest.txt");
-	tree.parse();
-	std::cout << std::endl;
+	
+	std::ofstream fout;
+	fout.open("test.txt");
+	//tree.parse(std::cout);
+	tree.parse(fout);
+	fout.close();
 	
 	/*
 	std::cout << "Original: " << std::endl;

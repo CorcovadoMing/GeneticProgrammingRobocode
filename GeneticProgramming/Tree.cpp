@@ -84,99 +84,99 @@ void Tree::print(const Node *node) const
 	}
 }
 
-void Tree::parse()
+void Tree::parse(std::ostream &fout)
 {
-	parse(&root_);
+	parse(fout, &root_);
 }
 
-void Tree::parse(Node *node, const bool withNewLine, int indent)
+void Tree::parse(std::ostream &fout, Node *node, const bool withNewLine, int indent)
 {
 	if (node->willExpand())
 	{
 		for (std::size_t i = 0; i < indent; i += 1)
 		{
-			std::cout << " ";
+			fout << " ";
 		}
 
 		if (node->getType() == "whileStatement" && node->numberOfChildren() == 2)
 		{
-			std::cout << "while (";
-			parse(node->child(0), false, 1);
-			std::cout << " ) {" << std::endl;
+			fout << "while (";
+			parse(fout, node->child(0), false, 1);
+			fout << " ) {" << std::endl;
 			indent += 4;
-			parse(node->child(1), true, indent);
+			parse(fout, node->child(1), true, indent);
 			indent -= 4;
 
 			for (std::size_t i = 0; i < indent; i += 1)
 			{
-				std::cout << " ";
+				fout << " ";
 			}
 
-			std::cout << "}" << std::endl;
+			fout << "}" << std::endl;
 		}
 		else if (node->getType() == "ifStatement" && node->numberOfChildren() == 2)
 		{
-			std::cout << "if (";
-			parse(node->child(0), false, 1);
-			std::cout << " ) {" << std::endl;
+			fout << "if (";
+			parse(fout, node->child(0), false, 1);
+			fout << " ) {" << std::endl;
 			indent += 4;
-			parse(node->child(1), true, indent);
+			parse(fout, node->child(1), true, indent);
 			indent -= 4;
 
 			for (std::size_t i = 0; i < indent; i += 1)
 			{
-				std::cout << " ";
+				fout << " ";
 			}
 
-			std::cout << "}" << std::endl;
+			fout << "}" << std::endl;
 		}
 		else if (node->getType() == "elseIfStatement" && node->numberOfChildren() == 2)
 		{
-			std::cout << "else if (";
-			parse(node->child(0), false, 1);
-			std::cout << " ) {" << std::endl;
+			fout << "else if (";
+			parse(fout, node->child(0), false, 1);
+			fout << " ) {" << std::endl;
 			indent += 4;
-			parse(node->child(1), true, indent);
+			parse(fout, node->child(1), true, indent);
 			indent -= 4;
 
 			for (std::size_t i = 0; i < indent; i += 1)
 			{
-				std::cout << " ";
+				fout << " ";
 			}
 
-			std::cout << "}" << std::endl;
+			fout << "}" << std::endl;
 		}
 		else if (node->getType() == "elseStatement" && node->numberOfChildren() == 1)
 		{
-			std::cout << "else {" << std::endl;
+			fout << "else {" << std::endl;
 			indent += 4;
-			parse(node->child(0), true, indent);
+			parse(fout, node->child(0), true, indent);
 			indent -= 4;
 
 			for (std::size_t i = 0; i < indent; i += 1)
 			{
-				std::cout << " ";
+				fout << " ";
 			}
 
-			std::cout << "}" << std::endl;
+			fout << "}" << std::endl;
 		}
 		else if (node->getType() == "argumentRequiring1" && node->numberOfChildren() == 1)
 		{
 			node->setData(Tree::randomArgumentRequiring1(GP_no_));
-			std::cout << node->getData() << "(";
-			parse(node->child(0), false, 1);
-			std::cout << " );" << std::endl;
+			fout << node->getData() << "(";
+			parse(fout, node->child(0), false, 1);
+			fout << " );" << std::endl;
 		}
 		else if (node->getType() == "expression")
 		{
-			std::cout << "(";
+			fout << "(";
 
 			for (std::size_t i = 0; i < node->numberOfChildren(); i += 1)
 			{
-				parse(node->child(i), false, 1);
+				parse(fout, node->child(i), false, 1);
 			}
 
-			std::cout << " )";
+			fout << " )";
 		}
 		else
 		{
@@ -184,48 +184,48 @@ void Tree::parse(Node *node, const bool withNewLine, int indent)
 			{
 				if (node->getType() == "constant")
 				{
-					std::cout << node->getData() << ";" << std::endl;
+					fout << node->getData() << ";" << std::endl;
 				}
 				else if (node->getType() == "variable")
 				{
 					node->setData(Tree::randomVariable(GP_no_));
-					std::cout << node->getData() << ";" << std::endl;
+					fout << node->getData() << ";" << std::endl;
 				}
 				else if (node->getType() == "argumentRequiring0")
 				{
 					node->setData(Tree::randomArgumentRequiring0(GP_no_));
-					std::cout << node->getData() << ";" << std::endl;
+					fout << node->getData() << ";" << std::endl;
 				}
 				else
 				{
-					std::cout << node->getType() << ";" << std::endl;
+					fout << node->getType() << ";" << std::endl;
 				}
 			}
 			else
 			{
 				if (node->getType() == "constant")
 				{
-					std::cout << node->getData();
+					fout << node->getData();
 				}
 				else if (node->getType() == "variable")
 				{
 					node->setData(Tree::randomVariable(GP_no_));
-					std::cout << node->getData();
+					fout << node->getData();
 				}
 				else if (node->getType() == "argumentRequiring0")
 				{
 					node->setData(Tree::randomArgumentRequiring0(GP_no_));
-					std::cout << node->getData();
+					fout << node->getData();
 				}
 				else
 				{
-					std::cout << node->getType();
+					fout << node->getType();
 				}
 			}
 
 			for (std::size_t i = 0; i < node->numberOfChildren(); i += 1)
 			{
-				parse(node->child(i), withNewLine, indent);
+				parse(fout, node->child(i), withNewLine, indent);
 			}
 		}
 	}
@@ -233,7 +233,7 @@ void Tree::parse(Node *node, const bool withNewLine, int indent)
 	{
 		for (std::size_t i = 0; i < node->numberOfChildren(); i += 1)
 		{
-			parse(node->child(i), withNewLine, indent);
+			parse(fout, node->child(i), withNewLine, indent);
 		}
 	}
 }
@@ -269,9 +269,4 @@ const std::string &Tree::randomArgumentRequiring1(const int type)
 
 	const std::size_t index = RandomRange::random<int>(0, table[type].size() - 1);
 	return table[type][index];
-}
-
-void Tree::makeRobot(const std::string &output_file)
-{
-	
 }

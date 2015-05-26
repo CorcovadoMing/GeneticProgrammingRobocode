@@ -92,6 +92,12 @@
 	},
 	"file_history":
 	[
+		"/C/Users/Ming/a.cpp",
+		"/F/Github/GeneticProgrammingRobocode/GeneticProgramming/GeneticProgramming.cpp",
+		"/F/Github/GeneticProgrammingRobocode/GeneticProgramming/GeneticProgramming.h",
+		"/F/Github/GeneticProgrammingRobocode/GeneticProgramming/Tree.h",
+		"/F/Github/GeneticProgrammingRobocode/GeneticProgramming/Tree.cpp",
+		"/C/Users/Ming/AppData/Roaming/Sublime Text 3/Packages/User/Preferences.sublime-settings",
 		"/F/Github/GeneticProgrammingRobotcode/Makefile",
 		"/C/Users/Ming/Downloads/Archive/a.cpp",
 		"/C/Users/Ming/Downloads/Archive/a.py",
@@ -122,7 +128,6 @@
 		"/C/Users/Ming/keras/setup.py",
 		"/F/Practice/RabbitMQ/WorkQueues/worker.py",
 		"/F/Practice/RabbitMQ/WorkQueues/new_task.py",
-		"/C/Users/Ming/a.cpp",
 		"/F/Practice/RabbitMQ/WorkQueues/robocode_task.py",
 		"/F/Practice/Corona/Tableview/main.lua",
 		"/D/Corona Labs/Corona SDK/Sample Code/Interface/WidgetDemo/main.lua",
@@ -196,7 +201,6 @@
 		"/E/Vagrant/CoreOS/config.rb",
 		"/E/Vagrant/CoreOS/user-data",
 		"/F/Practice/Theano/GPU/test.py",
-		"/C/Users/Ming/AppData/Roaming/Sublime Text 3/Packages/User/Preferences.sublime-settings",
 		"/C/Users/Ming/AppData/Roaming/Sublime Text 3/Packages/Default/Preferences.sublime-settings"
 	],
 	"find":
