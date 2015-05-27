@@ -18,14 +18,15 @@ public:
 private:
 	void evaluate_populations_();
 	const double evaluate_(const Chromosome &);
-	void makeRobot(const Chromosome &, std::ostream &);
+	void makeRobot(Chromosome &, std::ostream &);
 
 	PopulationGroup population_;
+	
 	std::vector< std::vector<double> > fitness_;
 	std::vector< std::vector<std::size_t> > selected_;
+
 	const double mutation_rate_;
 	const std::size_t population_size_;
-
 	const std::size_t population_group_size_ = 3;
 	const std::size_t GPtrees_size_ = 3;
 };
