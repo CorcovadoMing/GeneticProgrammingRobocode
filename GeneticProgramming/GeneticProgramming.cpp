@@ -45,9 +45,6 @@ void GeneticProgramming::matingSelection()
 
 void GeneticProgramming::crossover()
 {
-	using std::cout;
-	using std::endl;
-
 	// for each population
 	for (std::size_t pgsz = 0; pgsz < population_group_size_; pgsz += 1)
 	{
@@ -77,10 +74,6 @@ void GeneticProgramming::crossover()
 				const std::size_t inter_stat_idx = RandomRange::random<int>(0, intersection.size() - 1);
 
 				//cross over 2 tree that has same program logic block
-                cout << "popugroup: " << pgsz << ", cadi: " << candi << ", " << candi + 1 << ", GPt: " << gpt << endl;
-                cout << "selected_: " << selected_[pgsz][candi + 0] << ", " << selected_[pgsz][candi + 1] << endl;
-				cout << "pick: " << intersection[inter_stat_idx] << endl;
-
 				crossover(chrom_x[gpt], chrom_y[gpt], intersection[inter_stat_idx]);
 			}
 		}

@@ -313,6 +313,7 @@ void Tree::getNodeByTypeResursively(std::vector<Node *> &set, Node *node, const 
 void updateLevelResursively(Node *node, const int level)
 {
 	node->setLevel(level);
+
 	for (std::size_t i = 0; i < node->numberOfChildren(); i += 1)
 	{
 		updateLevelResursively(node->child(i), level + 1);
