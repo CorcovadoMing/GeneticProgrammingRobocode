@@ -6,7 +6,7 @@
 
 Node::Node(const std::string &type, const int level, const std::string &data) : type_(type), level_(level), data_(data)
 {
-	const int Expected_Height = 5;
+	const int Expected_Height = 1;
 	const double Constant_range = 100;
 	// Growth
 	if (level < Expected_Height)
