@@ -70,11 +70,8 @@ void GeneticProgramming::crossover()
 		//for each selected candidate parent index to get chromosome
 		for (std::size_t candi = 0; candi < selected_[pgsz].size(); candi += 2)
 		{
-			// Chromosome chrom_x = population_[pgsz][selected_[pgsz][candi + 0]];
-			// Chromosome chrom_y = population_[pgsz][selected_[pgsz][candi + 1]];
-
-			Chromosome chrom_x = population_[pgsz][0];
-			Chromosome chrom_y = population_[pgsz][1];
+			Chromosome chrom_x = population_[pgsz][selected_[pgsz][candi + 0]];
+			Chromosome chrom_y = population_[pgsz][selected_[pgsz][candi + 1]];
 
 			//for each trees in 2 chromosome
 			for (std::size_t gpt = 0; gpt < GPtrees_size_; gpt += 1)
@@ -94,13 +91,12 @@ void GeneticProgramming::crossover()
 
 				//random pick one of intersection index
 				const std::size_t inter_stat_idx = RandomRange::random<int>(0, intersection.size() - 1);
-				std::cout << "CX the GP tree no." << gpt << std::endl;
 				//cross over 2 tree that has same program logic block
 				crossover(chrom_x[gpt], chrom_y[gpt], intersection[inter_stat_idx]);
 			}
 
-			offspring_[pgsz].push_back(chrom_x);
-			offspring_[pgsz].push_back(chrom_y);
+			offspring_[pgsz][candi+0] = chrom_x;
+			offspring_[pgsz][candi+1] = chrom_y;
 		}
 	}
 }
@@ -111,29 +107,15 @@ void GeneticProgramming::crossover(Tree &tx, Tree &ty, const std::string &type)
 	Node *nx = tx.getRandNodeByType(type);
 	Node *ny = ty.getRandNodeByType(type);
 
-		std::cout << "They choose the same type: " << type << std::endl;
-		tx.print(nx);
-		std::cout << std::endl;
-		ty.print(ny);
-		std::cout << std::endl;
-		std::cout << "==== This is the treeX CX before ====" << std::endl;
-		tx.print();
-
-
 	std::swap(*nx, *ny);
 
 	tx.updateLevelResursively(tx.root(), 0);
 	ty.updateLevelResursively(ty.root(), 0);
-		std::cout << std::endl;
-		std::cout << "==== This is the treeX CX after ====" << std::endl;
-		tx.print();
-	
-		fgetc(stdin);
 }
 
 void GeneticProgramming::mutation()
 {
-	for (auto population : population_)
+	for (auto population : offspring_)
 	{
 		for (auto chromosome : population)
 		{
