@@ -91,7 +91,13 @@ void GeneticProgramming::crossover()
 
 void GeneticProgramming::crossover(Tree &tx, Tree &ty, const std::string &type)
 {
-	std::swap(*tx.getRandNodeByType(type), *ty.getRandNodeByType(type));
+	Node *nx = tx.getRandNodeByType(type);
+	Node *ny = ty.getRandNodeByType(type);
+
+	std::swap(*nx, *ny);
+
+	updateLevelResursively(nx, ny->getLevel());
+	updateLevelResursively(ny, nx->getLevel());
 }
 
 void GeneticProgramming::mutation()
