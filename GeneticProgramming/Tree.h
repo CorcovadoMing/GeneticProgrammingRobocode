@@ -19,7 +19,7 @@ public:
 	void fscan(std::ifstream &, Node *);
 	const int getGPno() const { return GP_no_; }
 	void setGPno(const int GP_no) { GP_no_ = GP_no; }
-	const std::set<std::string> getAllStatments() const;
+	const std::vector<std::string> getAllStatments() const;
 	Node *getRandNodeByType(const std::string &);
 	void updateLevelResursively(Node *, const int);
 

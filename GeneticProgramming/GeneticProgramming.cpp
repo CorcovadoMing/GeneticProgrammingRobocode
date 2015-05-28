@@ -36,15 +36,18 @@ void GeneticProgramming::matingSelection()
 		{
 			const std::size_t first = RandomRange::random<int>(0, population_size_ - 1);
 			const std::size_t second = RandomRange::random<int>(0, population_size_ - 1);
-            //fake selected
-            selected_[i][j] = first;
-			selected_[i][j+1] = second;
+			//fake selected
+			selected_[i][j] = first;
+			selected_[i][j + 1] = second;
 		}
 	}
 }
 
 void GeneticProgramming::crossover()
 {
+	using std::cout;
+	using std::endl;
+
 	// for each population
 	for (std::size_t pgsz = 0; pgsz < population_group_size_; pgsz += 1)
 	{
@@ -58,8 +61,8 @@ void GeneticProgramming::crossover()
 			for (std::size_t gpt = 0; gpt < GPtrees_size_; gpt += 1)
 			{
 				//get tree token type as a set.
-				std::set<std::string> chrom_x_stats = chrom_x[gpt].getAllStatments();
-				std::set<std::string> chrom_y_stats = chrom_y[gpt].getAllStatments();
+				std::vector<std::string> chrom_x_stats = chrom_x[gpt].getAllStatments();
+				std::vector<std::string> chrom_y_stats = chrom_y[gpt].getAllStatments();
 
 				//find intersection. Refer from http://www.cplusplus.com/reference/algorithm/set_intersection/
 				std::vector<std::string> intersection(std::max(chrom_x_stats.size(), chrom_y_stats.size()));
@@ -74,6 +77,10 @@ void GeneticProgramming::crossover()
 				const std::size_t inter_stat_idx = RandomRange::random<int>(0, intersection.size() - 1);
 
 				//cross over 2 tree that has same program logic block
+                cout << "popugroup: " << pgsz << ", cadi: " << candi << ", " << candi + 1 << ", GPt: " << gpt << endl;
+                cout << "selected_: " << selected_[pgsz][candi + 0] << ", " << selected_[pgsz][candi + 1] << endl;
+				cout << "pick: " << intersection[inter_stat_idx] << endl;
+
 				crossover(chrom_x[gpt], chrom_y[gpt], intersection[inter_stat_idx]);
 			}
 		}
@@ -87,7 +94,25 @@ void GeneticProgramming::crossover(Tree &tx, Tree &ty, const std::string &type)
 
 void GeneticProgramming::mutation()
 {
+	for (auto population : population_)
+	{
+		for (auto chromosome : population)
+		{
+			if (RandomRange::random<double>(0, 1) < mutation_rate_)
+			{
+				mutation(chromosome[RandomRange::random<int>(0, chromosome.size() - 1)]);
+			}
+		}
+	}
+}
 
+void GeneticProgramming::mutation(Tree &tx)
+{
+	std::vector<std::string> stats = tx.getAllStatments();
+	const std::size_t stat_idx = RandomRange::random<int>(0, stats.size() - 1);
+	Node* mu = tx.getRandNodeByType(stats[stat_idx]);
+	Tree new_mu(mu->getType(), mu->getLevel(), tx.getGPno());
+	std::swap(*new_mu.root(), *mu);
 }
 
 void GeneticProgramming::environmentSelection()

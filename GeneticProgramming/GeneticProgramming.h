@@ -13,6 +13,7 @@ public:
 	void crossover();
 	void crossover(Tree &, Tree &, const std::string &);
 	void mutation();
+	void mutation(Tree &);
 	void environmentSelection();
 private:
 	//void evaluate_populations_();

@@ -272,11 +272,12 @@ const std::string &Tree::randomArgumentRequiring1(const int type)
 	return table[type][index];
 }
 
-const std::set<std::string> Tree::getAllStatments() const
+const std::vector<std::string> Tree::getAllStatments() const
 {
 	std::set<std::string> set;
 	getTypeResursively(set, root());
-	return set;
+	std::vector<std::string> ret(set.begin(), set.end());
+	return ret;
 }
 
 void Tree::getTypeResursively(std::set<std::string> &set, const Node *node) const
