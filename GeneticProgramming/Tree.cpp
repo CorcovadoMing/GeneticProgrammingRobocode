@@ -2,6 +2,7 @@
 #include "RandomRange.h"
 #include <iostream>
 #include <fstream>
+#include <algorithm>
 
 
 Tree::Tree(const std::string &type, const int level, const int GP_no) : root_(type, level), GP_no_(GP_no)
@@ -270,3 +271,51 @@ const std::string &Tree::randomArgumentRequiring1(const int type)
 	const std::size_t index = RandomRange::random<int>(0, table[type].size() - 1);
 	return table[type][index];
 }
+
+const std::vector<std::string> Tree::getAllStatments() const
+{
+	std::set<std::string> set;
+	getTypeResursively(set, root());
+	std::vector<std::string> ret(set.begin(), set.end());
+	return ret;
+}
+
+void Tree::getTypeResursively(std::set<std::string> &set, const Node *node) const
+{
+	for (std::size_t i = 0; i < node->numberOfChildren(); i += 1)
+	{
+		getTypeResursively(set, node->child(i));
+	}
+
+	set.insert(node->getType());
+}
+
+Node *Tree::getRandNodeByType(const std::string &type)
+{
+	std::vector<Node *> set;
+	getNodeByTypeResursively(set, root(), type);
+	return set[RandomRange::random<int>(0, set.size() - 1)];
+}
+
+void Tree::getNodeByTypeResursively(std::vector<Node *> &set, Node *node, const std::string &type) const
+{
+	for (std::size_t i = 0; i < node->numberOfChildren(); i += 1)
+	{
+		getNodeByTypeResursively(set, node->child(i), type);
+	}
+
+	if (node->getType() == type)
+	{
+		set.push_back(node);
+	}
+}
+
+void updateLevelResursively(Node *node, const int level)
+{
+	node->setLevel(level);
+
+	for (std::size_t i = 0; i < node->numberOfChildren(); i += 1)
+	{
+		updateLevelResursively(node->child(i), level + 1);
+	}
+} 
