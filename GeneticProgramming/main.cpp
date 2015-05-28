@@ -10,7 +10,7 @@ int main()
 	tree.print();
 	std::cout << std::endl;
 
-	std::vector<std::string> x = tree.getAllStatments();
+	std::set<std::string> x = tree.getAllStatments();
 	for (auto xi = x.begin(); xi != x.end(); ++xi)
 	{
 		std::cout << *xi <<", ";

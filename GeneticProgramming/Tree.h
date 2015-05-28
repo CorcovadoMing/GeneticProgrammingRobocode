@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include <set>
 #include "Node.h"
 
 typedef std::vector<std::vector<std::string> > Table;
@@ -18,8 +19,8 @@ public:
 	void fscan(std::ifstream &, Node *);
 	const int getGPno() const { return GP_no_; }
 	void setGPno(const int GP_no) { GP_no_ = GP_no; }
-	const std::vector<std::string> getAllStatments() const;
-	void getTypeResursively(std::vector<std::string> &, const Node *) const;
+	const std::set<std::string> getAllStatments() const;
+	void getTypeResursively(std::set<std::string> &, const Node *) const;
 
 private:
 	void print(const Node *) const;
