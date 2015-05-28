@@ -7,15 +7,8 @@ int main()
 	Tree tree("statements", 0, 0);
 	//tree.exportTo("iotest.txt");
 	//tree.importFrom("iotest.txt");
-	tree.print();
-	std::cout << std::endl;
-
-	std::set<std::string> x = tree.getAllStatments();
-	for (auto xi = x.begin(); xi != x.end(); ++xi)
-	{
-		std::cout << *xi <<", ";
-	}
-	std::cout << std::endl;
+	//tree.print();
+	//std::cout << std::endl;
 	
 	/*
 	std::cout << "Original: " << std::endl;
@@ -37,8 +30,8 @@ int main()
 
 	GeneticProgramming gp(10, 0.4); // population_size, mutation_rate
 
-	//gp.matingSelection();
-	//gp.crossover();
+	gp.matingSelection();
+	gp.crossover();
 	//gp.mutation();
 	//gp.environmentSelection();
 	return 0;

@@ -11,6 +11,7 @@ public:
 	GeneticProgramming(const int, const double);
 	void matingSelection();
 	void crossover();
+	void crossover(Tree &, Tree &, const std::string &);
 	void mutation();
 	void environmentSelection();
 private:

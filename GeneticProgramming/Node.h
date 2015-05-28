@@ -18,6 +18,7 @@ public:
 	const Node *child(const std::size_t) const;
 	Node *child(const std::size_t);
 	const unsigned getLevel() const;
+	void setLevel(const unsigned lv) { level_ = lv; };
 	const bool willExpand() const;
 	void setData(const std::string &data) { data_ = data; }
 	const std::string &getData() const;

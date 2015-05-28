@@ -20,15 +20,18 @@ public:
 	const int getGPno() const { return GP_no_; }
 	void setGPno(const int GP_no) { GP_no_ = GP_no; }
 	const std::set<std::string> getAllStatments() const;
-	void getTypeResursively(std::set<std::string> &, const Node *) const;
+	Node *getRandNodeByType(const std::string &);
+	void updateLevelResursively(Node *, const int);
 
 private:
 	void print(const Node *) const;
 	void parse(Node *, const bool withNewLine = true, int indent = 0);
+	void getTypeResursively(std::set<std::string> &, const Node *) const;
+	void getNodeByTypeResursively(std::vector<Node *> &, Node *, const std::string &) const;
 	Node root_;
 	int GP_no_;
 
-	static const std::string & randomVariable(const int);
-	static const std::string & randomArgumentRequiring0(const int);
-	static const std::string & randomArgumentRequiring1(const int);
+	static const std::string &randomVariable(const int);
+	static const std::string &randomArgumentRequiring0(const int);
+	static const std::string &randomArgumentRequiring1(const int);
 };
