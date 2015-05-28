@@ -18,12 +18,13 @@ public:
 	void environmentSelection();
 
 private:
-	void evaluate_populations_();
-	const double evaluate_(const Chromosome &);
-	void makeRobot(Chromosome &, std::ostream &);
+	// void evaluate_populations_();
+	// const double evaluate_(const Chromosome &);
+	// void makeRobot(Chromosome &, std::ostream &);
 
 	PopulationGroup population_;
-	
+	PopulationGroup offspring_;
+
 	std::vector< std::vector<double> > fitness_;
 	std::vector< std::vector<std::size_t> > selected_;
 

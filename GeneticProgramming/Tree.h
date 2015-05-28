@@ -36,3 +36,4 @@ private:
 	static const std::string &randomArgumentRequiring0(const int);
 	static const std::string &randomArgumentRequiring1(const int);
 };
+

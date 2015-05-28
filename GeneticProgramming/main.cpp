@@ -9,11 +9,11 @@ int main()
 	//tree.exportTo("iotest.txt");
 	//tree.importFrom("iotest.txt");
 	
-	std::ofstream fout;
-	fout.open("test.txt");
-	//tree.parse(std::cout);
-	tree.parse(fout);
-	fout.close();
+	// std::ofstream fout;
+	// fout.open("test.txt");
+	// //tree.parse(std::cout);
+	// tree.parse(fout);
+	// fout.close();
 	
 	/*
 	std::cout << "Original: " << std::endl;
@@ -34,8 +34,8 @@ int main()
 	*/
 
 	GeneticProgramming gp(10, 0.4); // population_size, mutation_rate
-	//gp.matingSelection();
-	//gp.crossover();
+	gp.matingSelection();
+	gp.crossover();
 	//gp.mutation();
 	//gp.environmentSelection();
 	return 0;
