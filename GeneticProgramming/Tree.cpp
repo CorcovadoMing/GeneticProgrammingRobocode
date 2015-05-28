@@ -281,7 +281,7 @@ const std::set<std::string> Tree::getAllStatments() const
 
 void Tree::getTypeResursively(std::set<std::string> &set, const Node *node) const
 {
-	for (std::size_t i = 0; i < node->numberOfChildren() && !node->willExpand(); i += 1)
+	for (std::size_t i = 0; i < node->numberOfChildren(); i += 1)
 	{
 		getTypeResursively(set, node->child(i));
 	}
