@@ -18,13 +18,16 @@ public:
 	void fscan(std::ifstream &, Node *);
 	const int getGPno() const { return GP_no_; }
 	void setGPno(const int GP_no) { GP_no_ = GP_no; }
+	const std::vector<std::string> getAllStatments() const;
+	void getTypeResursively(std::vector<std::string> &, const Node *) const;
+
 private:
 	void print(const Node *) const;
 	void parse(Node *, const bool withNewLine = true, int indent = 0);
 	Node root_;
 	int GP_no_;
 
-	static const std::string &randomVariable(const int);
-	static const std::string &randomArgumentRequiring0(const int);
-	static const std::string &randomArgumentRequiring1(const int);
+	static const std::string & randomVariable(const int);
+	static const std::string & randomArgumentRequiring0(const int);
+	static const std::string & randomArgumentRequiring1(const int);
 };

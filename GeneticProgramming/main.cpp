@@ -9,6 +9,13 @@ int main()
 	//tree.importFrom("iotest.txt");
 	tree.print();
 	std::cout << std::endl;
+
+	std::vector<std::string> x = tree.getAllStatments();
+	for (auto xi = x.begin(); xi != x.end(); ++xi)
+	{
+		std::cout << *xi <<", ";
+	}
+	std::cout << std::endl;
 	
 	/*
 	std::cout << "Original: " << std::endl;

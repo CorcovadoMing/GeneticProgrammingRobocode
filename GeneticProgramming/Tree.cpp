@@ -2,6 +2,7 @@
 #include "RandomRange.h"
 #include <iostream>
 #include <fstream>
+#include <algorithm>
 
 
 Tree::Tree(const std::string &type, const int level, const int GP_no) : root_(type, level), GP_no_(GP_no)
@@ -20,10 +21,10 @@ void Tree::exportTo(const char *filename) const
 void Tree::fprint(std::ofstream &fout, const Node *node) const
 {
 	fout << node->getLevel() << " "
-		 << node->getType() << " "
-		 << node->getData() << " "
-		 << node->numberOfChildren() << " "
-		 << node->willExpand() << std::endl;
+	     << node->getType() << " "
+	     << node->getData() << " "
+	     << node->numberOfChildren() << " "
+	     << node->willExpand() << std::endl;
 
 	for (std::size_t i = 0; i < node->numberOfChildren(); i += 1)
 	{
@@ -252,7 +253,7 @@ const std::string &Tree::randomVariable(const int type)
 	const std::size_t index = RandomRange::random<int>(0, table[type].size() - 1);
 	return table[type][index];
 }
-	
+
 const std::string &Tree::randomArgumentRequiring0(const int type)
 {
 	static Table table(3);
@@ -271,3 +272,24 @@ const std::string &Tree::randomArgumentRequiring1(const int type)
 	return table[type][index];
 }
 
+const std::vector<std::string> Tree::getAllStatments() const
+{
+	std::vector<std::string> set;
+	getTypeResursively(set, root());
+
+	//unique it, refer by http://www.cplusplus.com/reference/algorithm/unique/
+	std::sort(set.begin(), set.end());
+	auto itr = std::unique (set.begin(), set.end());
+	set.resize( std::distance(set.begin(), itr) );
+	return set;
+}
+
+void Tree::getTypeResursively(std::vector<std::string> &set, const Node *node) const
+{
+	for (std::size_t i = 0; i < node->numberOfChildren() && !node->willExpand(); i += 1)
+	{
+		getTypeResursively(set, node->child(i));
+	}
+
+	set.push_back(node->getType());
+}
