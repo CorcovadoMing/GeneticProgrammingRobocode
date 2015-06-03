@@ -2,7 +2,7 @@
 #include "GeneticProgramming.h"
 #include <iostream>
 #include <fstream>
-// #include <SimpleAmqpClient/SimpleAmqpClient.h>
+//#include <SimpleAmqpClient/SimpleAmqpClient.h>
 #include <algorithm>
 
 // using namespace AmqpClient;
@@ -25,11 +25,6 @@ GeneticProgramming::GeneticProgramming(const int populaion_size, const double mu
 
 	fitness_ = std::vector< std::vector<double> >(population_group_size_, std::vector<double>(populaion_size, 0));
 	selected_ = std::vector< std::vector<std::size_t> >(population_group_size_, std::vector<std::size_t>(populaion_size, 0));
-
-	// std::ofstream fout;
-	// fout.open("Hand.java");
-	// makeRobot(population_[0][0], fout);
-	// fout.close();
 }
 
 void GeneticProgramming::matingSelection()
@@ -37,28 +32,30 @@ void GeneticProgramming::matingSelection()
 	// evaluate_populations_();
 	for (std::size_t i = 0; i < population_group_size_; i += 1)
 	{
+		/*
 		//this is fake data for testing
 		for (std::size_t j = 0; j < selected_[i].size(); j += 2)
 		{
 			const std::size_t first = RandomRange::random<int>(0, population_size_ - 1);
 			const std::size_t second = RandomRange::random<int>(0, population_size_ - 1);
-			
+
 			selected_[i][j] = first;
 			selected_[i][j+1] = second;
 		}
-		// for (std::size_t j = 0; j < selected_[i].size(); j += 1)
-		// {
-		// 	const std::size_t first = RandomRange::random<int>(0, population_size_ - 1);
-		// 	const std::size_t second = RandomRange::random<int>(0, population_size_ - 1);
-		// 	if (fitness_[i][first] < fitness_[i][second])
-		// 	{
-		// 		selected_[i][j] = first;
-		// 	}
-		// 	else
-		// 	{
-		// 		selected_[i][j] = second;
-		// 	}
-		// }
+		*/
+		for (std::size_t j = 0; j < selected_[i].size(); j += 1)
+		{
+			const std::size_t first = RandomRange::random<int>(0, population_size_ - 1);
+			const std::size_t second = RandomRange::random<int>(0, population_size_ - 1);
+			if (fitness_[i][first] > fitness_[i][second])
+			{
+				selected_[i][j] = first;
+			}
+			else
+			{
+				selected_[i][j] = second;
+			}
+		}
 	}
 }
 
@@ -103,7 +100,7 @@ void GeneticProgramming::crossover()
 
 void GeneticProgramming::crossover(Tree &tx, Tree &ty, const std::string &type)
 {
-	
+
 	Node *nx = tx.getRandNodeByType(type);
 	Node *ny = ty.getRandNodeByType(type);
 
@@ -136,10 +133,10 @@ void GeneticProgramming::mutation(Tree &tx)
 	std::swap(*new_mu.root(), *mu);
 }
 
-// void GeneticProgramming::environmentSelection()
-// {
+void GeneticProgramming::environmentSelection()
+{
 
-// }
+}
 
 // void GeneticProgramming::evaluate_populations_()
 // {
@@ -195,7 +192,7 @@ void GeneticProgramming::mutation(Tree &tx)
 // 	fout << "	public void reverseDirection() {" << std::endl;
 // 	fout << "		direction = direction * -1;" << std::endl;
 // 	fout << "	}" << std::endl;
-// 	fout << std::endl;	
+// 	fout << std::endl;
 // 	fout << "	void doScanner() {" << std::endl;
 // 	fout << "		double radarOffset;" << std::endl;
 // 	fout << "		if (getTime() - target.ctime > 4) {" << std::endl;
@@ -229,7 +226,7 @@ void GeneticProgramming::mutation(Tree &tx)
 // 	fout << "			ang += 2*PI;" << std::endl;
 // 	fout << "		return ang;" << std::endl;
 // 	fout << "	}" << std::endl;
-// 	fout << std::endl;	
+// 	fout << std::endl;
 // 	fout << "	public double getrange( double x1,double y1, double x2,double y2 )" << std::endl;
 // 	fout << "	{" << std::endl;
 // 	fout << "		double xo = x2-x1;" << std::endl;
