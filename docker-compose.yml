@@ -1,3 +1,8 @@
+rabbitmq:
+  image: rabbitmq
+  ports:
+  - 5672:5672
+
 build:
   command: bash -c "cd /source && make"
   image: rf37535/build
