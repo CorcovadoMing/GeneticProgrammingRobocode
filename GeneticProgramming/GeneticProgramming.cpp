@@ -107,6 +107,7 @@ void GeneticProgramming::mutation()
 		{
 			if (RandomRange::random<double>(0, 1) < mutation_rate_)
 			{
+				// mutate the one of the four part in each individual
 				mutation(chromosome[RandomRange::random<int>(0, chromosome.size() - 1)]);
 			}
 		}
@@ -124,7 +125,14 @@ void GeneticProgramming::mutation(Tree &tx)
 
 void GeneticProgramming::environmentSelection()
 {
-
+	for (std::size_t i = 0; i < population_group_size_; i += 1)
+	{
+		for (std::size_t j = 0; j < population_size_; j += 1)
+		{
+			// generational model
+			population_[i][j] = offspring_[i][j];
+		}
+	}
 }
 
 void GeneticProgramming::evaluate_populations_()
