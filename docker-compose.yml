@@ -1,0 +1,5 @@
+build:
+  command: bash -c "cd /source && make"
+  image: rf37535/build
+  volumes:
+  - ~/Workspace/Github/GeneticProgrammingRobocode/:/source
