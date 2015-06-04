@@ -2,10 +2,10 @@
 #include "GeneticProgramming.h"
 #include <iostream>
 #include <fstream>
-//#include <SimpleAmqpClient/SimpleAmqpClient.h>
+#include <SimpleAmqpClient/SimpleAmqpClient.h>
 #include <algorithm>
 
-// using namespace AmqpClient;
+using namespace AmqpClient;
 
 GeneticProgramming::GeneticProgramming(const int populaion_size, const double mutation_rate) : population_size_(populaion_size), mutation_rate_(mutation_rate)
 {
@@ -29,20 +29,9 @@ GeneticProgramming::GeneticProgramming(const int populaion_size, const double mu
 
 void GeneticProgramming::matingSelection()
 {
-	// evaluate_populations_();
+	evaluate_populations_();
 	for (std::size_t i = 0; i < population_group_size_; i += 1)
 	{
-		/*
-		//this is fake data for testing
-		for (std::size_t j = 0; j < selected_[i].size(); j += 2)
-		{
-			const std::size_t first = RandomRange::random<int>(0, population_size_ - 1);
-			const std::size_t second = RandomRange::random<int>(0, population_size_ - 1);
-
-			selected_[i][j] = first;
-			selected_[i][j+1] = second;
-		}
-		*/
 		for (std::size_t j = 0; j < selected_[i].size(); j += 1)
 		{
 			const std::size_t first = RandomRange::random<int>(0, population_size_ - 1);
@@ -138,194 +127,193 @@ void GeneticProgramming::environmentSelection()
 
 }
 
-// void GeneticProgramming::evaluate_populations_()
-// {
-// 	for (std::size_t i = 0; i < population_group_size_; i += 1)
-// 	{
-// 		for (std::size_t j = 0; j < population_[i].size(); j += 1)
-// 		{
-// 			fitness_[i][j] = evaluate_(population_[i][j]);
-// 		}
-// 	}
-// }
+void GeneticProgramming::evaluate_populations_()
+{
+	for (std::size_t i = 0; i < population_group_size_; i += 1)
+	{
+		for (std::size_t j = 0; j < population_[i].size(); j += 1)
+		{
+			// fitness_[i][j] = evaluate_(population_[i][j]);
+		}
+	}
+}
+
+// AMQP communication
+
+void send()
+{
+	Channel::ptr_t channel = Channel::Create("localhost");
+	BasicMessage::ptr_t msg_in = BasicMessage::Create();
+	msg_in->Body("This is a small message.");
+	channel->BasicPublish("control", "", msg_in);
+}
+
+void receive()
+{
+	Channel::ptr_t channel = Channel::Create("localhost");
+	channel->DeclareQueue("robocode_gp_control");
+	channel->BindQueue("robocode_gp_control", "gp", "robocode");
+	channel->BasicConsume("robocode_gp_control", "consumertag");
+	BasicMessage::ptr_t msg_out = channel->BasicConsumeMessage("consumertag")->Message();
+	std::cout << "Message text: " << msg_out->Body() << std::endl;
+}
+
+const double GeneticProgramming::evaluate_(const Chromosome &chromosome)
+{
+	send();
+	receive();
+	return 0;
+}
 
 
-// void GeneticProgramming::makeRobot(Chromosome &chromosome, std::ostream &fout)
-// {
-// 	fout << "package Hand;" << std::endl;
-// 	fout << "import robocode.*;" << std::endl;
-// 	fout << "import java.awt.Color;" << std::endl;
-// 	fout << "import java.util.Random;" << std::endl;
+void GeneticProgramming::makeRobot(Chromosome &chromosome, std::ostream &fout)
+{
+	fout << "package Hand;" << std::endl;
+	fout << "import robocode.*;" << std::endl;
+	fout << "import java.awt.Color;" << std::endl;
+	fout << "import java.util.Random;" << std::endl;
 
-// 	fout << "public class Hand extends AdvancedRobot" << std::endl;
-// 	fout << "{" << std::endl;
-// 	fout << "	Enemy target;" << std::endl;
-// 	fout << "	final double PI = Math.PI;" << std::endl;
-// 	fout << "	int direction = 1;" << std::endl;
-// 	fout << "	Random r = new Random();" << std::endl;
-// 	fout << "	double firePower;" << std::endl;
+	fout << "public class Hand extends AdvancedRobot" << std::endl;
+	fout << "{" << std::endl;
+	fout << "	Enemy target;" << std::endl;
+	fout << "	final double PI = Math.PI;" << std::endl;
+	fout << "	int direction = 1;" << std::endl;
+	fout << "	Random r = new Random();" << std::endl;
+	fout << "	double firePower;" << std::endl;
 
-// 	fout << "	public void run() {" << std::endl;
-// 	fout << "		target = new Enemy();" << std::endl;
-// 	fout << "		target.distance = 100000;" << std::endl;
-// 	fout << "		setColors(Color.black,Color.black,Color.black);" << std::endl;
-// 	fout << "		setAdjustGunForRobotTurn(true);" << std::endl;
-// 	fout << "		setAdjustRadarForGunTurn(true);" << std::endl;
-// 	fout << "		turnRadarRightRadians(2*PI);" << std::endl;
-// 	fout << "		while(true) {" << std::endl;
-// 	fout << "			doMovement();" << std::endl;
-// 	fout << "			doScanner();" << std::endl;
-// 	fout << "			doGun();" << std::endl;
-// 	fout << "			execute();" << std::endl;
-// 	fout << "		}" << std::endl;
-// 	fout << "	}" << std::endl;
-// 	fout << "	void doFire() {" << std::endl;
-// 	chromosome[0].parse(fout);
-// 	fout << "	}" << std::endl;
-// 	fout << std::endl;
-// 	fout << "	void doMovement() {" << std::endl;
-// 	chromosome[1].parse(fout);
-// 	fout << "	}" << std::endl;
-// 	fout << "	public void onHitWall(HitWallEvent e) {" << std::endl;
-// 	chromosome[2].parse(fout);
-// 	fout << "	}" << std::endl;
-// 	fout << "	public void reverseDirection() {" << std::endl;
-// 	fout << "		direction = direction * -1;" << std::endl;
-// 	fout << "	}" << std::endl;
-// 	fout << std::endl;
-// 	fout << "	void doScanner() {" << std::endl;
-// 	fout << "		double radarOffset;" << std::endl;
-// 	fout << "		if (getTime() - target.ctime > 4) {" << std::endl;
-// 	fout << "			radarOffset = 360;" << std::endl;
-// 	fout << "		} else {" << std::endl;
-// 	fout << "			radarOffset = getRadarHeadingRadians() - absbearing(getX(),getY(),target.x,target.y);" << std::endl;
-// 	fout << "		}" << std::endl;
-// 	fout << "		setTurnRadarLeftRadians(NormaliseBearing(radarOffset));" << std::endl;
-// 	fout << "		setTurnGunLeftRadians(NormaliseBearing(radarOffset+90));" << std::endl;
-// 	fout << "	}" << std::endl;
-// 	fout << std::endl;
-// 	fout << "	void doGun() {" << std::endl;
-// 	fout << "		long time = getTime() + (int)(target.distance/(20-(3*firePower)));" << std::endl;
-// 	fout << "		double gunOffset = getGunHeadingRadians() - absbearing(getX(),getY(),target.guessX(time),target.guessY(time));" << std::endl;
-// 	fout << "		setTurnGunLeftRadians(NormaliseBearing(gunOffset));" << std::endl;
-// 	fout << "		doFire();" << std::endl;
-// 	fout << "	}" << std::endl;
-// 	fout << std::endl;
-// 	fout << "	double NormaliseBearing(double ang) {" << std::endl;
-// 	fout << "		if (ang > PI)" << std::endl;
-// 	fout << "			ang -= 2*PI;" << std::endl;
-// 	fout << "		if (ang < -PI)" << std::endl;
-// 	fout << "			ang += 2*PI;" << std::endl;
-// 	fout << "		return ang;" << std::endl;
-// 	fout << "	}" << std::endl;
-// 	fout << std::endl;
-// 	fout << "	double NormaliseHeading(double ang) {" << std::endl;
-// 	fout << "		if (ang > 2*PI)" << std::endl;
-// 	fout << "			ang -= 2*PI;" << std::endl;
-// 	fout << "		if (ang < 0)" << std::endl;
-// 	fout << "			ang += 2*PI;" << std::endl;
-// 	fout << "		return ang;" << std::endl;
-// 	fout << "	}" << std::endl;
-// 	fout << std::endl;
-// 	fout << "	public double getrange( double x1,double y1, double x2,double y2 )" << std::endl;
-// 	fout << "	{" << std::endl;
-// 	fout << "		double xo = x2-x1;" << std::endl;
-// 	fout << "		double yo = y2-y1;" << std::endl;
-// 	fout << "		double h = Math.sqrt( xo*xo + yo*yo );" << std::endl;
-// 	fout << "		return h;" << std::endl;
-// 	fout << "	}" << std::endl;
-// 	fout << std::endl;
-// 	fout << "	public double absbearing( double x1,double y1, double x2,double y2 )" << std::endl;
-// 	fout << "	{" << std::endl;
-// 	fout << "		double xo = x2-x1;" << std::endl;
-// 	fout << "		double yo = y2-y1;" << std::endl;
-// 	fout << "		double h = getrange( x1,y1, x2,y2 );" << std::endl;
-// 	fout << "		if( xo > 0 && yo > 0 )" << std::endl;
-// 	fout << "		{" << std::endl;
-// 	fout << "			return Math.asin( xo / h );" << std::endl;
-// 	fout << "		}" << std::endl;
-// 	fout << "		if( xo > 0 && yo < 0 )" << std::endl;
-// 	fout << "		{" << std::endl;
-// 	fout << "			return Math.PI - Math.asin( xo / h );" << std::endl;
-// 	fout << "		}" << std::endl;
-// 	fout << "		if( xo < 0 && yo < 0 )" << std::endl;
-// 	fout << "		{" << std::endl;
-// 	fout << "			return Math.PI + Math.asin( -xo / h );" << std::endl;
-// 	fout << "		}" << std::endl;
-// 	fout << "		if( xo < 0 && yo > 0 )" << std::endl;
-// 	fout << "		{" << std::endl;
-// 	fout << "			return 2.0*Math.PI - Math.asin( -xo / h );" << std::endl;
-// 	fout << "		}" << std::endl;
-// 	fout << "		return 0;" << std::endl;
-// 	fout << "	}" << std::endl;
-// 	fout << std::endl;
-// 	fout << "	public void onScannedRobot(ScannedRobotEvent e) {" << std::endl;
-// 	fout << "		if ((e.getDistance() < target.distance)||(target.name == e.getName())) {" << std::endl;
-// 	fout << "			double absbearing_rad = (getHeadingRadians()+e.getBearingRadians())%(2*PI);" << std::endl;
-// 	fout << "			target.name = e.getName();" << std::endl;
-// 	fout << "			target.x = getX()+Math.sin(absbearing_rad)*e.getDistance();" << std::endl;
-// 	fout << "			target.y = getY()+Math.cos(absbearing_rad)*e.getDistance();" << std::endl;
-// 	fout << "			target.bearing = e.getBearingRadians();" << std::endl;
-// 	fout << "			target.head = e.getHeadingRadians();" << std::endl;
-// 	fout << "			target.ctime = getTime();" << std::endl;
-// 	fout << "			target.speed = e.getVelocity();" << std::endl;
-// 	fout << "			target.distance = e.getDistance();" << std::endl;
-// 	fout << "			target.energy = e.getEnergy();" << std::endl;
-// 	fout << "		}" << std::endl;
-// 	fout << "	}" << std::endl;
-// 	fout << std::endl;
-// 	fout << "	public void onRobotDeath(RobotDeathEvent e) {" << std::endl;
-// 	fout << "		if (e.getName() == target.name)" << std::endl;
-// 	fout << "			target.distance = 10000;" << std::endl;
-// 	fout << "	}" << std::endl;
-// 	fout << "}" << std::endl;
-// 	fout << std::endl;
-// 	fout << "class Enemy {" << std::endl;
-// 	fout << "	String name;" << std::endl;
-// 	fout << "	public double energy;" << std::endl;
-// 	fout << "	public double bearing;" << std::endl;
-// 	fout << "	public double head;" << std::endl;
-// 	fout << "	public long ctime;" << std::endl;
-// 	fout << "	public double speed;" << std::endl;
-// 	fout << "	public double x,y;" << std::endl;
-// 	fout << "	public double distance;" << std::endl;
-// 	fout << "	public double guessX(long when)" << std::endl;
-// 	fout << "	{" << std::endl;
-// 	fout << "		long diff = when - ctime;" << std::endl;
-// 	fout << "		return x+Math.sin(head)*speed*diff;" << std::endl;
-// 	fout << "	}" << std::endl;
-// 	fout << "	public double guessY(long when)" << std::endl;
-// 	fout << "	{" << std::endl;
-// 	fout << "		long diff = when - ctime;" << std::endl;
-// 	fout << "		return y+Math.cos(head)*speed*diff;" << std::endl;
-// 	fout << "	}" << std::endl;
-// 	fout << "}" << std::endl;
-// }
-
-
-// // AMQP communication
-
-// void send()
-// {
-// 	Channel::ptr_t channel = Channel::Create("localhost");
-// 	BasicMessage::ptr_t msg_in = BasicMessage::Create();
-// 	msg_in->Body("This is a small message.");
-// 	channel->BasicPublish("control", "", msg_in);
-// }
-
-// void receive()
-// {
-// 	Channel::ptr_t channel = Channel::Create("localhost");
-// 	channel->DeclareQueue("robocode_gp_control");
-// 	channel->BindQueue("robocode_gp_control", "gp", "robocode");
-// 	channel->BasicConsume("robocode_gp_control", "consumertag");
-// 	BasicMessage::ptr_t msg_out = channel->BasicConsumeMessage("consumertag")->Message();
-// 	std::cout << "Message text: " << msg_out->Body() << std::endl;
-// }
-
-// const double GeneticProgramming::evaluate_(const Chromosome &chromosome)
-// {
-// 	send();
-// 	receive();
-// 	return 0;
-// }
+	fout << "	public void run() {" << std::endl;
+	fout << "		target = new Enemy();" << std::endl;
+	fout << "		target.distance = 100000;" << std::endl;
+	fout << "		setColors(Color.black,Color.black,Color.black);" << std::endl;
+	fout << "		setAdjustGunForRobotTurn(true);" << std::endl;
+	fout << "		setAdjustRadarForGunTurn(true);" << std::endl;
+	fout << "		turnRadarRightRadians(2*PI);" << std::endl;
+	fout << "		while(true) {" << std::endl;
+	fout << "			doMovement();" << std::endl;
+	fout << "			doScanner();" << std::endl;
+	fout << "			doGun();" << std::endl;
+	fout << "			execute();" << std::endl;
+	fout << "		}" << std::endl;
+	fout << "	}" << std::endl;
+	fout << "	void doFire() {" << std::endl;
+	chromosome[0].parse(fout);
+	fout << "	}" << std::endl;
+	fout << std::endl;
+	fout << "	void doMovement() {" << std::endl;
+	chromosome[1].parse(fout);
+	fout << "	}" << std::endl;
+	fout << "	public void onHitWall(HitWallEvent e) {" << std::endl;
+	chromosome[2].parse(fout);
+	fout << "	}" << std::endl;
+	fout << "	public void reverseDirection() {" << std::endl;
+	fout << "		direction = direction * -1;" << std::endl;
+	fout << "	}" << std::endl;
+	fout << std::endl;
+	fout << "	void doScanner() {" << std::endl;
+	fout << "		double radarOffset;" << std::endl;
+	fout << "		if (getTime() - target.ctime > 4) {" << std::endl;
+	fout << "			radarOffset = 360;" << std::endl;
+	fout << "		} else {" << std::endl;
+	fout << "			radarOffset = getRadarHeadingRadians() - absbearing(getX(),getY(),target.x,target.y);" << std::endl;
+	fout << "		}" << std::endl;
+	fout << "		setTurnRadarLeftRadians(NormaliseBearing(radarOffset));" << std::endl;
+	fout << "		setTurnGunLeftRadians(NormaliseBearing(radarOffset+90));" << std::endl;
+	fout << "	}" << std::endl;
+	fout << std::endl;
+	fout << "	void doGun() {" << std::endl;
+	fout << "		long time = getTime() + (int)(target.distance/(20-(3*firePower)));" << std::endl;
+	fout << "		double gunOffset = getGunHeadingRadians() - absbearing(getX(),getY(),target.guessX(time),target.guessY(time));" << std::endl;
+	fout << "		setTurnGunLeftRadians(NormaliseBearing(gunOffset));" << std::endl;
+	fout << "		doFire();" << std::endl;
+	fout << "	}" << std::endl;
+	fout << std::endl;
+	fout << "	double NormaliseBearing(double ang) {" << std::endl;
+	fout << "		if (ang > PI)" << std::endl;
+	fout << "			ang -= 2*PI;" << std::endl;
+	fout << "		if (ang < -PI)" << std::endl;
+	fout << "			ang += 2*PI;" << std::endl;
+	fout << "		return ang;" << std::endl;
+	fout << "	}" << std::endl;
+	fout << std::endl;
+	fout << "	double NormaliseHeading(double ang) {" << std::endl;
+	fout << "		if (ang > 2*PI)" << std::endl;
+	fout << "			ang -= 2*PI;" << std::endl;
+	fout << "		if (ang < 0)" << std::endl;
+	fout << "			ang += 2*PI;" << std::endl;
+	fout << "		return ang;" << std::endl;
+	fout << "	}" << std::endl;
+	fout << std::endl;
+	fout << "	public double getrange( double x1,double y1, double x2,double y2 )" << std::endl;
+	fout << "	{" << std::endl;
+	fout << "		double xo = x2-x1;" << std::endl;
+	fout << "		double yo = y2-y1;" << std::endl;
+	fout << "		double h = Math.sqrt( xo*xo + yo*yo );" << std::endl;
+	fout << "		return h;" << std::endl;
+	fout << "	}" << std::endl;
+	fout << std::endl;
+	fout << "	public double absbearing( double x1,double y1, double x2,double y2 )" << std::endl;
+	fout << "	{" << std::endl;
+	fout << "		double xo = x2-x1;" << std::endl;
+	fout << "		double yo = y2-y1;" << std::endl;
+	fout << "		double h = getrange( x1,y1, x2,y2 );" << std::endl;
+	fout << "		if( xo > 0 && yo > 0 )" << std::endl;
+	fout << "		{" << std::endl;
+	fout << "			return Math.asin( xo / h );" << std::endl;
+	fout << "		}" << std::endl;
+	fout << "		if( xo > 0 && yo < 0 )" << std::endl;
+	fout << "		{" << std::endl;
+	fout << "			return Math.PI - Math.asin( xo / h );" << std::endl;
+	fout << "		}" << std::endl;
+	fout << "		if( xo < 0 && yo < 0 )" << std::endl;
+	fout << "		{" << std::endl;
+	fout << "			return Math.PI + Math.asin( -xo / h );" << std::endl;
+	fout << "		}" << std::endl;
+	fout << "		if( xo < 0 && yo > 0 )" << std::endl;
+	fout << "		{" << std::endl;
+	fout << "			return 2.0*Math.PI - Math.asin( -xo / h );" << std::endl;
+	fout << "		}" << std::endl;
+	fout << "		return 0;" << std::endl;
+	fout << "	}" << std::endl;
+	fout << std::endl;
+	fout << "	public void onScannedRobot(ScannedRobotEvent e) {" << std::endl;
+	fout << "		if ((e.getDistance() < target.distance)||(target.name == e.getName())) {" << std::endl;
+	fout << "			double absbearing_rad = (getHeadingRadians()+e.getBearingRadians())%(2*PI);" << std::endl;
+	fout << "			target.name = e.getName();" << std::endl;
+	fout << "			target.x = getX()+Math.sin(absbearing_rad)*e.getDistance();" << std::endl;
+	fout << "			target.y = getY()+Math.cos(absbearing_rad)*e.getDistance();" << std::endl;
+	fout << "			target.bearing = e.getBearingRadians();" << std::endl;
+	fout << "			target.head = e.getHeadingRadians();" << std::endl;
+	fout << "			target.ctime = getTime();" << std::endl;
+	fout << "			target.speed = e.getVelocity();" << std::endl;
+	fout << "			target.distance = e.getDistance();" << std::endl;
+	fout << "			target.energy = e.getEnergy();" << std::endl;
+	fout << "		}" << std::endl;
+	fout << "	}" << std::endl;
+	fout << std::endl;
+	fout << "	public void onRobotDeath(RobotDeathEvent e) {" << std::endl;
+	fout << "		if (e.getName() == target.name)" << std::endl;
+	fout << "			target.distance = 10000;" << std::endl;
+	fout << "	}" << std::endl;
+	fout << "}" << std::endl;
+	fout << std::endl;
+	fout << "class Enemy {" << std::endl;
+	fout << "	String name;" << std::endl;
+	fout << "	public double energy;" << std::endl;
+	fout << "	public double bearing;" << std::endl;
+	fout << "	public double head;" << std::endl;
+	fout << "	public long ctime;" << std::endl;
+	fout << "	public double speed;" << std::endl;
+	fout << "	public double x,y;" << std::endl;
+	fout << "	public double distance;" << std::endl;
+	fout << "	public double guessX(long when)" << std::endl;
+	fout << "	{" << std::endl;
+	fout << "		long diff = when - ctime;" << std::endl;
+	fout << "		return x+Math.sin(head)*speed*diff;" << std::endl;
+	fout << "	}" << std::endl;
+	fout << "	public double guessY(long when)" << std::endl;
+	fout << "	{" << std::endl;
+	fout << "		long diff = when - ctime;" << std::endl;
+	fout << "		return y+Math.cos(head)*speed*diff;" << std::endl;
+	fout << "	}" << std::endl;
+	fout << "}" << std::endl;
+}

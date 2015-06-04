@@ -7,7 +7,7 @@ class GeneticProgramming
 	typedef std::vector<Tree> Chromosome;
 	typedef std::vector<Chromosome> Population;
 	typedef std::vector<Population> PopulationGroup;
-	
+
 public:
 	GeneticProgramming(const int, const double);
 	void matingSelection();
@@ -18,9 +18,9 @@ public:
 	void environmentSelection();
 
 private:
-	// void evaluate_populations_();
-	// const double evaluate_(const Chromosome &);
-	// void makeRobot(Chromosome &, std::ostream &);
+	void evaluate_populations_();
+	const double evaluate_(const Chromosome &);
+	void makeRobot(Chromosome &, std::ostream &);
 
 	PopulationGroup population_;
 	PopulationGroup offspring_;
