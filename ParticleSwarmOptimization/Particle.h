@@ -1,5 +1,4 @@
-#ifndef __ParticleSwarmOptimization__Particle__
-#define __ParticleSwarmOptimization__Particle__
+#pragma once
 
 #include <vector>
 
@@ -19,5 +18,3 @@ private:
     std::vector<double> particle_, velocity_, history_;
     double fitness_, history_fitness_ = INTMAX_MAX;
 };
-
-#endif /* defined(__ParticleSwarmOptimization__Particle__) */

@@ -1,5 +1,4 @@
-#ifndef __ParticleSwarmOptimization__ParticleSwarmOptimization__
-#define __ParticleSwarmOptimization__ParticleSwarmOptimization__
+#pragma once
 
 #include <vector>
 #include "Particle.h"
@@ -24,4 +23,3 @@ private:
     std::vector<double> global_best_;
     double global_best_fitness_;
 };
-#endif /* defined(__ParticleSwarmOptimization__ParticleSwarmOptimization__) */
