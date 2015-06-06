@@ -95,8 +95,8 @@ void GeneticProgramming::crossover(Tree &tx, Tree &ty, const std::string &type)
 
 	std::swap(*nx, *ny);
 
-	tx.updateLevelResursively(tx.root(), 0);
-	ty.updateLevelResursively(ty.root(), 0);
+	tx.updateLevelRecursively(tx.root(), 0);
+	ty.updateLevelRecursively(ty.root(), 0);
 }
 
 void GeneticProgramming::mutation()

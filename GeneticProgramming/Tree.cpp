@@ -275,16 +275,23 @@ const std::string &Tree::randomArgumentRequiring1(const int type)
 const std::vector<std::string> Tree::getAllStatments() const
 {
 	std::set<std::string> set;
-	getTypeResursively(set, root());
+	getTypeRecursively(set, root());
 	std::vector<std::string> ret(set.begin(), set.end());
 	return ret;
 }
 
-void Tree::getTypeResursively(std::set<std::string> &set, const Node *node) const
+const std::vector<Node *> Tree::getNodesByType(const std::string &type)
+{
+	std::vector<Node *> set;
+	getNodesByTypeRecursively(set, root(), type);
+	return set;
+}
+
+void Tree::getTypeRecursively(std::set<std::string> &set, const Node *node) const
 {
 	for (std::size_t i = 0; i < node->numberOfChildren(); i += 1)
 	{
-		getTypeResursively(set, node->child(i));
+		getTypeRecursively(set, node->child(i));
 	}
 
 	set.insert(node->getType());
@@ -293,15 +300,15 @@ void Tree::getTypeResursively(std::set<std::string> &set, const Node *node) cons
 Node *Tree::getRandNodeByType(const std::string &type)
 {
 	std::vector<Node *> set;
-	getNodeByTypeResursively(set, root(), type);
+	getNodesByTypeRecursively(set, root(), type);
 	return set[RandomRange::random<int>(0, set.size() - 1)];
 }
 
-void Tree::getNodeByTypeResursively(std::vector<Node *> &set, Node *node, const std::string &type) const
+void Tree::getNodesByTypeRecursively(std::vector<Node *> &set, Node *node, const std::string &type) const
 {
 	for (std::size_t i = 0; i < node->numberOfChildren(); i += 1)
 	{
-		getNodeByTypeResursively(set, node->child(i), type);
+		getNodesByTypeRecursively(set, node->child(i), type);
 	}
 
 	if (node->getType() == type)
@@ -310,12 +317,12 @@ void Tree::getNodeByTypeResursively(std::vector<Node *> &set, Node *node, const 
 	}
 }
 
-void Tree::updateLevelResursively(Node *node, const int level)
+void Tree::updateLevelRecursively(Node *node, const int level)
 {
 	node->setLevel(level);
 
 	for (std::size_t i = 0; i < node->numberOfChildren(); i += 1)
 	{
-		updateLevelResursively(node->child(i), level + 1);
+		updateLevelRecursively(node->child(i), level + 1);
 	}
 } 
