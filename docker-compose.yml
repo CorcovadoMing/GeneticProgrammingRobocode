@@ -1,5 +1,5 @@
 rabbitmq:
-  image: rabbitmq
+  image: rf37535/rabbitmq
   ports:
   - 5672:5672
 
