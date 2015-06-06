@@ -19,15 +19,16 @@ public:
 	void fscan(std::ifstream &, Node *);
 	const int getGPno() const { return GP_no_; }
 	void setGPno(const int GP_no) { GP_no_ = GP_no; }
-	const std::vector<std::string> getAllStatments() const;
-	Node *getRandNodeByType(const std::string &);
-	void updateLevelResursively(Node *, const int);
-	
+	const std::vector<std::string> getAllStatments() const; // get all statments string without duplication
+	const std::vector<Node *> getNodesByType(const std::string &); // get editable Nodes pointers by specific type
+	Node *getRandNodeByType(const std::string &); // get the only Node pointers by specific type randomly
+	void updateLevelRecursively(Node *, const int);
+
 private:
 	void print(const Node *) const;
 	void parse(std::ostream &, Node *, const bool withNewLine = true, int indent = 0);
-	void getTypeResursively(std::set<std::string> &, const Node *) const;
-	void getNodeByTypeResursively(std::vector<Node *> &, Node *, const std::string &) const;
+	void getTypeRecursively(std::set<std::string> &, const Node *) const;
+	void getNodesByTypeRecursively(std::vector<Node *> &, Node *, const std::string &) const;
 	
 	Node root_;
 	int GP_no_;
