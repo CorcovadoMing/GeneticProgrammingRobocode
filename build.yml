@@ -4,6 +4,11 @@ build:
   volumes:
     - ~/Workspace/Github/GeneticProgrammingRobocode/:/source
 
+exe:
+  command: bash -c "cd /source && make run"
+  image: rf37535/build
+  volumes:
+    - ~/Workspace/Github/GeneticProgrammingRobocode/:/source
 clean:
   command: bash -c "cd /source && make clean"
   image: rf37535/build
