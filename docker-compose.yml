@@ -1,16 +1,17 @@
 rabbitmq:
   image: rf37535/rabbitmq
-  ports:
-  - 5672:5672
 
-build:
-  command: bash -c "cd /source && make"
-  image: rf37535/build
-  volumes:
-  - ~/Workspace/Github/GeneticProgrammingRobocode/:/source
+controlengine:
+  image: rf37535/robocode:controlengine
+  links:
+    - rabbitmq
 
-clean:
-  command: bash -c "cd /source && make clean"
+gp:
   image: rf37535/build
-  volumes:
-  - ~/Workspace/Github/GeneticProgrammingRobocode/:/source
+  links:
+    - rabbitmq
+
+pso:
+  image: rf37535/build
+  links:
+    - rabbitmq
