@@ -36,6 +36,7 @@ void GeneticProgramming::matingSelection()
 		{
 			const std::size_t first = RandomRange::random<int>(0, population_size_ - 1);
 			const std::size_t second = RandomRange::random<int>(0, population_size_ - 1);
+			// pick maximum
 			if (fitness_[i][first] > fitness_[i][second])
 			{
 				selected_[i][j] = first;
