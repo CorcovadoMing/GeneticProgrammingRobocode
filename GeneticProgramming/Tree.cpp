@@ -250,8 +250,9 @@ const std::string &Tree::randomVariable(const int type)
 	table[0].push_back("target.distance");
 	table[0].push_back("target.energy");
 
-	const std::size_t index = RandomRange::random<int>(0, table[type].size() - 1);
-	return table[type][index];
+	// All the type should be the same, *for now*
+	const std::size_t index = RandomRange::random<int>(0, table[0].size() - 1);
+	return table[0][index];
 }
 	
 const std::string &Tree::randomArgumentRequiring0(const int type)
