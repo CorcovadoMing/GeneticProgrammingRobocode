@@ -250,15 +250,37 @@ const std::string &Tree::randomVariable(const int type)
 	table[0].push_back("target.distance");
 	table[0].push_back("target.energy");
 
+	table[1].push_back("target.x");
+	table[1].push_back("target.y");
+	table[1].push_back("target.bearing");
+	table[1].push_back("target.head");
+	table[1].push_back("target.speed");
+	table[1].push_back("target.distance");
+	table[1].push_back("target.energy");
+	table[1].push_back("direction");
+
+	table[2].push_back("target.x");
+	table[2].push_back("target.y");
+	table[2].push_back("target.bearing");
+	table[2].push_back("target.head");
+	table[2].push_back("target.speed");
+	table[2].push_back("target.distance");
+	table[2].push_back("target.energy");
+	table[2].push_back("direction");
+
 	// All the type should be the same, *for now*
-	const std::size_t index = RandomRange::random<int>(0, table[0].size() - 1);
-	return table[0][index];
+	const std::size_t index = RandomRange::random<int>(0, table[type].size() - 1);
+	return table[type][index];
 }
 	
 const std::string &Tree::randomArgumentRequiring0(const int type)
 {
 	static Table table(3);
 	table[0].push_back("//nothing");
+
+	table[1].push_back("//nothing");
+
+	table[2].push_back("//nothing");
 
 	const std::size_t index = RandomRange::random<int>(0, table[type].size() - 1);
 	return table[type][index];
@@ -268,6 +290,12 @@ const std::string &Tree::randomArgumentRequiring1(const int type)
 {
 	static Table table(3);
 	table[0].push_back("fire");
+
+	table[1].push_back("setAhead");
+	table[1].push_back("setTurnRightRadians");
+
+	table[2].push_back("setAhead");
+	table[2].push_back("setTurnRightRadians");
 
 	const std::size_t index = RandomRange::random<int>(0, table[type].size() - 1);
 	return table[type][index];
