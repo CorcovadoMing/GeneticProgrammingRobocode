@@ -80,19 +80,19 @@ void GeneticProgramming::writeFirst()
 	std::string n[3] = {"0", "1", "2"};
 	for (std::size_t i = 0; i < population_group_size_; i += 1)
 	{
-		int best_index = -1;
-		double best = -1;
+		int worst_index = -1;
+		double worst = 999;
 		for (std::size_t j = 0; j < fitness_[i].size(); j += 1)
 		{
-			if (fitness_[i][j] > best)
+			if (fitness_[i][j] < best)
 			{
-				best = fitness_[i][j];
-				best_index = j;
+				worst = fitness_[i][j];
+				worst_index = j;
 			}
 			std::ofstream fout;
 			std::string filename= "bak/first/" + n[i] + ".java";
 			fout.open(filename);
-			makeRobot(population_[i][best_index], fout);
+			makeRobot(population_[i][worst_index], fout);
 			fout.close();
 		}
 	}
