@@ -19,8 +19,8 @@ public:
 
 private:
 	void evaluate_populations_();
-	const double evaluate_(const Chromosome &);
-	void makeRobot(Chromosome &, std::ostream &);
+	const double evaluate_(Chromosome &);
+	void makeRobot(Chromosome &, std::ofstream &);
 
 	PopulationGroup population_;
 	PopulationGroup offspring_;

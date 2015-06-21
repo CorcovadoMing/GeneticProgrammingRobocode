@@ -6,3 +6,4 @@ run:
 
 clean:
 	@rm ./gp
+	@rm ./ControlEngine/robots/GP/*

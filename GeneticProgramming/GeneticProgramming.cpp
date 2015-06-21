@@ -169,22 +169,26 @@ void receive()
 	std::cout << "Message text: " << msg_out->Body() << std::endl;
 }
 
-const double GeneticProgramming::evaluate_(const Chromosome &chromosome)
+const double GeneticProgramming::evaluate_(Chromosome &chromosome)
 {
+	std::ofstream fout;
+	fout.open("ControlEngine/robots/GP/GP.java");
+	makeRobot(chromosome, fout);
+	fout.close();
 	send();
 	receive();
 	return 0;
 }
 
 
-void GeneticProgramming::makeRobot(Chromosome &chromosome, std::ostream &fout)
+void GeneticProgramming::makeRobot(Chromosome &chromosome, std::ofstream &fout)
 {
-	fout << "package Hand;" << std::endl;
+	fout << "package GP;" << std::endl;
 	fout << "import robocode.*;" << std::endl;
 	fout << "import java.awt.Color;" << std::endl;
 	fout << "import java.util.Random;" << std::endl;
 
-	fout << "public class Hand extends AdvancedRobot" << std::endl;
+	fout << "public class GP extends AdvancedRobot" << std::endl;
 	fout << "{" << std::endl;
 	fout << "	Enemy target;" << std::endl;
 	fout << "	final double PI = Math.PI;" << std::endl;
