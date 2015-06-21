@@ -19,7 +19,7 @@ public:
 
 private:
 	void evaluate_populations_();
-	const double evaluate_(Chromosome &);
+	const double evaluate_(Chromosome &, const int type);
 	void makeRobot(Chromosome &, std::ofstream &);
 
 	PopulationGroup population_;

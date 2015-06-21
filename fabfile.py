@@ -19,7 +19,7 @@ container_name = [
 startup_command = [
 'docker run -d --name rabbitmq rf37535/rabbitmq',
 'docker create -v /e/Github/GeneticProgrammingRobocode:/source --name robocode-source rf37535/dummy',
-'docker run -d --name controlengine --volumes-from robocode-source --link rabbitmq:rabbitmq rf37535/robocode:controlengine bash -c "cd /source/ControlEngine && python main.py"'
+'docker run -d --name controlengine --volumes-from robocode-source --link rabbitmq:rabbitmq rf37535/robocode:controlengine bash -c "cd /source/ControlEngine && rm -rf /robocode/robots && ln -s /source/ControlEngine/robots /robocode/robots && python main.py"'
 ]
 
 def up():
@@ -28,7 +28,7 @@ def up():
             print magenta('['+str(i+1)+'/'+str(len(container))+'] Start up '+container_name[i]+'...', bold=True)
             print green(local(startup_command[i], capture=True))
             if i == 0:
-                for wait in xrange(5, 0, -1):
+                for wait in xrange(10, 0, -1):
                     print yellow('[info] Wait '+str(wait)+' second for service ' + container_name[i])
                     time.sleep(1)
 

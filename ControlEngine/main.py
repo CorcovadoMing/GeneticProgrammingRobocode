@@ -4,9 +4,12 @@ from shell import *
 import pika
 import os
 
+def compile_robot():
+    out, err = shell_command(["javac", "-cp", "/robocode/libs/robocode.jar", "robots/GP/GP.java"])
+
 def simulate():
-    out, err = shell_command(["/robocode/robocode.sh", "-battle", "battle/intro.battle", "-nodisplay", "-results",
-                              "result/result.txt"])
+    out, err = shell_command(["/robocode/robocode.sh", "-battle", "/source/ControlEngine/battle/gp.battle", "-nodisplay", "-results",
+                              "/source/ControlEngine/result/result.txt"])
     return parse_result("result/result.txt")
 
 
@@ -32,6 +35,35 @@ def parse_result(filename):
     process_file.close()
     return records
 
+def fitness(records, type):
+    result = 0
+    print records
+
+    survive0 = int(records[0]['survival']) + int(records[0]['survival_bonus'])
+    bullet0 = int(records[0]['bullet']) + int(records[0]['bullet_bonus'])
+    ram0 = int(records[0]['ram']) + int(records[0]['ram_bonus'])
+
+    survive1 = int(records[1]['survival']) + int(records[1]['survival_bonus'])
+    bullet1 = int(records[1]['bullet']) + int(records[1]['bullet_bonus'])
+    ram1 = int(records[1]['ram']) + int(records[1]['ram_bonus'])
+
+    if int(type) == 0:
+        if "GP" in records[0]:
+            result = (0.6*survive0 + 0.2*bullet0 + 0.2*ram0 + 0.00001)/(survive0 + bullet0 + ram0 + survive1 + bullet1 + ram1 + 0.00001)
+        else:
+            result = (0.6*survive1 + 0.2*bullet1 + 0.2*ram1 + 0.00001)/(survive0 + bullet0 + ram0 + survive1 + bullet1 + ram1 + 0.00001)
+    elif int(type) == 1:
+        if "GP" in records[0]:
+            result = (0.2*survive0 + 0.6*bullet0 + 0.2*ram0 + 0.00001)/(survive0 + bullet0 + ram0 + survive1 + bullet1 + ram1 + 0.00001)
+        else:
+            result = (0.2*survive1 + 0.6*bullet1 + 0.2*ram1 + 0.00001)/(survive0 + bullet0 + ram0 + survive1 + bullet1 + ram1 + 0.00001)
+    else:
+        if "GP" in records[0]:
+            result = (0.2*survive0 + 0.2*bullet0 + 0.6*ram0 + 0.00001)/(survive0 + bullet0 + ram0 + survive1 + bullet1 + ram1 + 0.00001)
+        else:
+            result = (0.2*survive1 + 0.2*bullet1 + 0.6*ram1 + 0.00001)/(survive0 + bullet0 + ram0 + survive1 + bullet1 + ram1 + 0.00001)
+
+    return str(result)
 
 def serve():
     connection = pika.BlockingConnection(pika.ConnectionParameters(host=os.environ['RABBITMQ_PORT_5672_TCP_ADDR']))
@@ -43,14 +75,12 @@ def serve():
     channel.queue_bind(exchange='control', queue=queue_name)
 
     def callback(ch, method, properties, body):
-        # print " [x] %r" % (body,)
+        compile_robot()
+        message = fitness(simulate(), body)
         connection = pika.BlockingConnection(pika.ConnectionParameters(host=os.environ['RABBITMQ_PORT_5672_TCP_ADDR']))
         channel = connection.channel()
         channel.exchange_declare(exchange='gp', type='fanout')
-        message = "0"
         channel.basic_publish(exchange='gp', routing_key='', body=message)
-        # print " [x] Sent %r" % (message,)
-        # connection.close()
 
     channel.basic_consume(callback, queue=queue_name, no_ack=True)
     channel.start_consuming()

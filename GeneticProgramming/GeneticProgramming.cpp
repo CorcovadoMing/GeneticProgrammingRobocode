@@ -2,8 +2,10 @@
 #include "GeneticProgramming.h"
 #include <iostream>
 #include <fstream>
+#include <sstream>
 #include <SimpleAmqpClient/SimpleAmqpClient.h>
 #include <algorithm>
+#include <cstdlib>
 
 using namespace AmqpClient;
 
@@ -142,23 +144,25 @@ void GeneticProgramming::evaluate_populations_()
 	{
 		for (std::size_t j = 0; j < population_[i].size(); j += 1)
 		{
-			fitness_[i][j] = evaluate_(population_[i][j]);
+			fitness_[i][j] = evaluate_(population_[i][j], i);
 		}
 	}
 }
 
 // AMQP communication
 
-void send()
+void send(const int type)
 {
 	Channel::ptr_t channel = Channel::Create(getenv("RABBITMQ_PORT_5672_TCP_ADDR"));
 	BasicMessage::ptr_t msg_in = BasicMessage::Create();
-	msg_in->Body("This is a small message.");
+	std::stringstream ss;
+	ss << type;
+	msg_in->Body(ss.str());
 	channel->DeclareExchange("control", "fanout");
 	channel->BasicPublish("control", "", msg_in);
 }
 
-void receive()
+const double receive()
 {
 	Channel::ptr_t channel = Channel::Create(getenv("RABBITMQ_PORT_5672_TCP_ADDR"));
 	channel->DeclareQueue("robocode_gp_control");
@@ -166,18 +170,19 @@ void receive()
 	channel->BindQueue("robocode_gp_control", "gp", "robocode");
 	channel->BasicConsume("robocode_gp_control", "consumertag");
 	BasicMessage::ptr_t msg_out = channel->BasicConsumeMessage("consumertag")->Message();
-	std::cout << "Message text: " << msg_out->Body() << std::endl;
+	return atof(msg_out->Body().c_str());
 }
 
-const double GeneticProgramming::evaluate_(Chromosome &chromosome)
+const double GeneticProgramming::evaluate_(Chromosome &chromosome, const int type)
 {
 	std::ofstream fout;
 	fout.open("ControlEngine/robots/GP/GP.java");
 	makeRobot(chromosome, fout);
 	fout.close();
-	send();
-	receive();
-	return 0;
+	send(type);
+	double result = receive();
+	std::cout << result << std::endl;
+	return result;
 }
 
 
