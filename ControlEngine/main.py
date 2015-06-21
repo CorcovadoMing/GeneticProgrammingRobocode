@@ -77,7 +77,7 @@ def serve():
 
     def callback(ch, method, properties, body):
         compile_robot()
-        message = str(fitness(simulate(), body))
+        message = str((fitness(simulate(1), body) + fitness(simulate(2), body) + fitness(simulate(3), body) + fitness(simulate(4), body) + fitness(simulate(5), body))/float(5))
         connection = pika.BlockingConnection(pika.ConnectionParameters(host=os.environ['RABBITMQ_PORT_5672_TCP_ADDR']))
         channel = connection.channel()
         channel.exchange_declare(exchange='gp', type='fanout')

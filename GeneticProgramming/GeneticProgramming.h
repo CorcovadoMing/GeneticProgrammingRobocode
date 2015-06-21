@@ -16,8 +16,11 @@ public:
 	void mutation();
 	void mutation(Tree &);
 	void environmentSelection();
-
+	void showPopulationFitness();
 	const double getBest(const int index) const { return best_[index]; }
+
+	void writeFirst();
+	void writeFinal();
 
 private:
 	void evaluate_populations_();

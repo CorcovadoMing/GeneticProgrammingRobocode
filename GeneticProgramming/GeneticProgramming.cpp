@@ -43,6 +43,84 @@ GeneticProgramming::GeneticProgramming(const int populaion_size, const double mu
 	evaluate_populations_();
 }
 
+void GeneticProgramming::showPopulationFitness()
+{
+	double s_min[3] = {0};
+	double s_avg[3] = {0};
+	double s_max[3] = {0};
+	for (std::size_t i = 0; i < population_group_size_; i += 1)
+	{
+		double sum = 0;
+		double min = 999;
+		double max = -1;
+		for (std::size_t j = 0; j < population_size_; j += 1)
+		{
+			if (fitness_[i][j] > max)
+			{
+				max = fitness_[i][j];
+			}
+			if (fitness_[i][j] < min)
+			{
+				min = fitness_[i][j];
+			}
+			sum += fitness_[i][j];
+			std::cout << fitness_[i][j] << std::endl;
+		}
+		s_max[i] = max;
+		s_min[i] = min;
+		s_avg[i] = sum/population_size_;
+	}
+	std::cout << "[Min Report]" << s_min[0] << " " << s_min[1] << " " << s_min[2] << std::endl;
+	std::cout << "[Max Report]" << s_max[0] << " " << s_max[1] << " " << s_max[2] << std::endl;
+	std::cout << "[Avg Report]" << s_avg[0] << " " << s_avg[1] << " " << s_avg[2] << std::endl;
+}
+
+void GeneticProgramming::writeFirst()
+{
+	std::string n[3] = {"0", "1", "2"};
+	for (std::size_t i = 0; i < population_group_size_; i += 1)
+	{
+		int best_index = -1;
+		double best = -1;
+		for (std::size_t j = 0; j < fitness_[i].size(); j += 1)
+		{
+			if (fitness_[i][j] > best)
+			{
+				best = fitness_[i][j];
+				best_index = j;
+			}
+			std::ofstream fout;
+			std::string filename= "bak/first/" + n[i] + ".java";
+			fout.open(filename);
+			makeRobot(population_[i][best_index], fout);
+			fout.close();
+		}
+	}
+}
+
+void GeneticProgramming::writeFinal()
+{
+	std::string n[3] = {"0", "1", "2"};
+	for (std::size_t i = 0; i < population_group_size_; i += 1)
+	{
+		int best_index = -1;
+		double best = -1;
+		for (std::size_t j = 0; j < fitness_[i].size(); j += 1)
+		{
+			if (fitness_[i][j] > best)
+			{
+				best = fitness_[i][j];
+				best_index = j;
+			}
+			std::ofstream fout;
+			std::string filename= "bak/final/" + n[i] + ".java";
+			fout.open(filename);
+			makeRobot(population_[i][best_index], fout);
+			fout.close();
+		}
+	}
+}
+
 void GeneticProgramming::matingSelection()
 {
 	for (std::size_t i = 0; i < population_group_size_; i += 1)
@@ -184,7 +262,7 @@ void GeneticProgramming::environmentSelection()
 			// replace population with offspring
 			if (best > worst)
 			{
-				std::cout << best << " > " << worst << std::endl;
+				// std::cout << best << " > " << worst << std::endl;
 				population_[i][worst_index] = offspring_[i][best_index];
 				fitness_[i][worst_index] = offspring_fitness_[i][best_index];
 			}
@@ -200,7 +278,7 @@ void GeneticProgramming::evaluate_populations_()
 		for (std::size_t j = 0; j < population_[i].size(); j += 1)
 		{
 			fitness_[i][j] = evaluate_(population_[i][j], i);
-			std::cout << fitness_[i][j] << std::endl;
+			// std::cout << fitness_[i][j] << std::endl;
 			if (fitness_[i][j] > best_[i])
 			{
 				best_[i] = fitness_[i][j];
@@ -216,7 +294,7 @@ void GeneticProgramming::evaluate_offsprings_()
 		for (std::size_t j = 0; j < offspring_[i].size(); j += 1)
 		{
 			offspring_fitness_[i][j] = evaluate_(offspring_[i][j], i);
-			std::cout << offspring_fitness_[i][j] << std::endl;
+			// std::cout << offspring_fitness_[i][j] << std::endl;
 			if (offspring_fitness_[i][j] > best_[i])
 			{
 				best_[i] = offspring_fitness_[i][j];
