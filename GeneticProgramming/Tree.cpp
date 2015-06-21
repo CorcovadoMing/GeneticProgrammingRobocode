@@ -163,7 +163,10 @@ void Tree::parse(std::ostream &fout, Node *node, const bool withNewLine, int ind
 		}
 		else if (node->getType() == "argumentRequiring1" && node->numberOfChildren() == 1)
 		{
-			node->setData(Tree::randomArgumentRequiring1(GP_no_));
+			if (node->getData() == "null")
+			{
+				node->setData(Tree::randomArgumentRequiring1(GP_no_));
+			}
 			fout << node->getData() << "(";
 			parse(fout, node->child(0), false, 1);
 			fout << " );" << std::endl;
@@ -189,12 +192,18 @@ void Tree::parse(std::ostream &fout, Node *node, const bool withNewLine, int ind
 				}
 				else if (node->getType() == "variable")
 				{
-					node->setData(Tree::randomVariable(GP_no_));
+					if (node->getData() == "null")
+					{
+						node->setData(Tree::randomVariable(GP_no_));
+					}
 					fout << node->getData() << ";" << std::endl;
 				}
 				else if (node->getType() == "argumentRequiring0")
 				{
-					node->setData(Tree::randomArgumentRequiring0(GP_no_));
+					if (node->getData() == "null")
+					{
+						node->setData(Tree::randomArgumentRequiring0(GP_no_));
+					}
 					fout << node->getData() << ";" << std::endl;
 				}
 				else
@@ -210,12 +219,18 @@ void Tree::parse(std::ostream &fout, Node *node, const bool withNewLine, int ind
 				}
 				else if (node->getType() == "variable")
 				{
-					node->setData(Tree::randomVariable(GP_no_));
+					if (node->getData() == "null")
+					{
+						node->setData(Tree::randomVariable(GP_no_));
+					}
 					fout << node->getData();
 				}
 				else if (node->getType() == "argumentRequiring0")
 				{
-					node->setData(Tree::randomArgumentRequiring0(GP_no_));
+					if (node->getData() == "null")
+					{
+						node->setData(Tree::randomArgumentRequiring0(GP_no_));
+					}
 					fout << node->getData();
 				}
 				else

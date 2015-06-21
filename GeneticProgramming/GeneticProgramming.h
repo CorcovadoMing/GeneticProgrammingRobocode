@@ -17,6 +17,8 @@ public:
 	void mutation(Tree &);
 	void environmentSelection();
 
+	const double getBest(const int index) const { return best_[index]; }
+
 private:
 	void evaluate_populations_();
 	const double evaluate_(Chromosome &, const int type);
@@ -28,6 +30,7 @@ private:
 	std::vector< std::vector<double> > fitness_;
 	std::vector< std::vector<std::size_t> > selected_;
 
+	double best_[3] = {0};
 	const double mutation_rate_;
 	const std::size_t population_size_;
 	const std::size_t population_group_size_ = 3;

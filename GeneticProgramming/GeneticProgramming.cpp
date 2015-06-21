@@ -145,6 +145,10 @@ void GeneticProgramming::evaluate_populations_()
 		for (std::size_t j = 0; j < population_[i].size(); j += 1)
 		{
 			fitness_[i][j] = evaluate_(population_[i][j], i);
+			if (fitness_[i][j] > best_[i])
+			{
+				best_[i] = fitness_[i][j];
+			}
 		}
 	}
 }

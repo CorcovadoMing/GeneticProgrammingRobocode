@@ -9,18 +9,16 @@ int main()
 	std::cout << "Done" << std::endl;
 
 	std::cout << "[GP] Evolving..." << std::endl;
-	const int LOOPTIMES = 10;
+	const int LOOPTIMES = 100;
 	int looptimes = LOOPTIMES;
 	while(looptimes--)
 	{
 		std::cout << "[GP] Generation " << LOOPTIMES-looptimes << std::endl;
 		gp.matingSelection();
-		std::cout << "[GP] Crossover..." << std::endl;
 		gp.crossover();
-		std::cout << "[GP] Mutation..." << std::endl;
 		gp.mutation();
-		std::cout << "[GP] EnvironmentSelection..." << std::endl;
 		gp.environmentSelection();
+		std::cout << "[Best Report] " << gp.getBest(0) << " " << gp.getBest(1) << " " << gp.getBest(2) << std::endl;
 	}
 	std::cout << "[GP] Process terminate" << std::endl;
 	return 0;
