@@ -4,9 +4,9 @@ from shell import *
 import pika
 
 def simulate():
-    out, err = shell_command(["D:\\Robocode\\robocode.bat", "-battle", "battle\\intro.battle", "-nodisplay", "-results",
-                              "result\\result.txt"])
-    return parse_result("result\\result.txt")
+    out, err = shell_command(["/robocode/robocode.sh", "-battle", "battle/intro.battle", "-nodisplay", "-results",
+                              "result/result.txt"])
+    return parse_result("result/result.txt")
 
 
 def parse_result(filename):
@@ -43,7 +43,6 @@ def serve():
 
     def callback(ch, method, properties, body):
         # print " [x] %r" % (body,)
-        
         '''
         process
         '''
@@ -54,7 +53,7 @@ def serve():
         message = "TEST"
         channel.basic_publish(exchange='gp', routing_key='', body=message)
         # print " [x] Sent %r" % (message,)
-        connection.close()
+        # connection.close()
 
     channel.basic_consume(callback, queue=queue_name, no_ack=True)
     channel.start_consuming()
