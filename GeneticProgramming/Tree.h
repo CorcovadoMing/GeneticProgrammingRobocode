@@ -34,6 +34,5 @@ private:
 	int GP_no_;
 
 	static const std::string &randomVariable(const int);
-	static const std::string &randomArgumentRequiring0(const int);
 	static const std::string &randomArgumentRequiring1(const int);
 };

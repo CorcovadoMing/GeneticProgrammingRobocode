@@ -12,6 +12,18 @@ using namespace AmqpClient;
 GeneticProgramming::GeneticProgramming(const int populaion_size, const double mutation_rate) : population_size_(populaion_size), mutation_rate_(mutation_rate)
 {
 	population_ = PopulationGroup(population_group_size_, Population(populaion_size, Chromosome(GPtrees_size_, Tree("statements", 0, 0))));
+
+	for (std::size_t i = 0; i < population_group_size_; i += 1)
+	{
+		for (std::size_t j = 0; j < populaion_size; j += 1)
+		{
+			population_[i][j][0] = Tree("statements", 0, 0);
+			population_[i][j][1] = Tree("statements", 0, 1);
+			population_[i][j][2] = Tree("statements", 0, 2);
+		}
+	}
+
+
 	offspring_ = population_;
 
 	for (auto population : population_)
@@ -26,12 +38,13 @@ GeneticProgramming::GeneticProgramming(const int populaion_size, const double mu
 	}
 
 	fitness_ = std::vector< std::vector<double> >(population_group_size_, std::vector<double>(populaion_size, 0));
+	offspring_fitness_ = std::vector< std::vector<double> >(population_group_size_, std::vector<double>(populaion_size, 0));
 	selected_ = std::vector< std::vector<std::size_t> >(population_group_size_, std::vector<std::size_t>(populaion_size, 0));
+	evaluate_populations_();
 }
 
 void GeneticProgramming::matingSelection()
 {
-	evaluate_populations_();
 	for (std::size_t i = 0; i < population_group_size_; i += 1)
 	{
 		for (std::size_t j = 0; j < selected_[i].size(); j += 1)
@@ -128,12 +141,54 @@ void GeneticProgramming::mutation(Tree &tx)
 
 void GeneticProgramming::environmentSelection()
 {
+	/*
 	for (std::size_t i = 0; i < population_group_size_; i += 1)
 	{
 		for (std::size_t j = 0; j < population_size_; j += 1)
 		{
 			// generational model
 			population_[i][j] = offspring_[i][j];
+		}
+	}*/
+
+	// steady state
+	evaluate_offsprings_();
+	for (std::size_t i = 0; i < population_group_size_; i += 1)
+	{
+		for (std::size_t times = 0; times < population_size_; times += 1)
+		{
+			// find worst in the population
+			int worst_index = -1;
+			double worst = 999;
+			for (std::size_t j = 0; j < fitness_[i].size(); j += 1)
+			{
+				if (fitness_[i][j] < worst)
+				{
+					worst = fitness_[i][j];
+					worst_index = j;
+				}
+			}
+
+			// find best in the offspring
+			int best_index = -1;
+			double best = -1;
+			for (std::size_t j = 0; j < offspring_fitness_[i].size(); j += 1)
+			{
+				if (offspring_fitness_[i][j] > best)
+				{
+					best = offspring_fitness_[i][j];
+					best_index = j;
+				}
+			}
+
+			// replace population with offspring
+			if (best > worst)
+			{
+				std::cout << best << " > " << worst << std::endl;
+				population_[i][worst_index] = offspring_[i][best_index];
+				fitness_[i][worst_index] = offspring_fitness_[i][best_index];
+			}
+			offspring_fitness_[i][best_index] = 0;
 		}
 	}
 }
@@ -145,9 +200,26 @@ void GeneticProgramming::evaluate_populations_()
 		for (std::size_t j = 0; j < population_[i].size(); j += 1)
 		{
 			fitness_[i][j] = evaluate_(population_[i][j], i);
+			std::cout << fitness_[i][j] << std::endl;
 			if (fitness_[i][j] > best_[i])
 			{
 				best_[i] = fitness_[i][j];
+			}
+		}
+	}
+}
+
+void GeneticProgramming::evaluate_offsprings_()
+{
+	for (std::size_t i = 0; i < population_group_size_; i += 1)
+	{
+		for (std::size_t j = 0; j < offspring_[i].size(); j += 1)
+		{
+			offspring_fitness_[i][j] = evaluate_(offspring_[i][j], i);
+			std::cout << offspring_fitness_[i][j] << std::endl;
+			if (offspring_fitness_[i][j] > best_[i])
+			{
+				best_[i] = offspring_fitness_[i][j];
 			}
 		}
 	}
@@ -184,9 +256,7 @@ const double GeneticProgramming::evaluate_(Chromosome &chromosome, const int typ
 	makeRobot(chromosome, fout);
 	fout.close();
 	send(type);
-	double result = receive();
-	std::cout << result << std::endl;
-	return result;
+	return receive();
 }
 
 
@@ -229,7 +299,7 @@ void GeneticProgramming::makeRobot(Chromosome &chromosome, std::ofstream &fout)
 	fout << "	public void onHitWall(HitWallEvent e) {" << std::endl;
 	chromosome[2].parse(fout);
 	fout << "	}" << std::endl;
-	fout << "	public void reverseDirection() {" << std::endl;
+	fout << "	public void reverseDirection(double any) {" << std::endl;
 	fout << "		direction = direction * -1;" << std::endl;
 	fout << "	}" << std::endl;
 	fout << std::endl;

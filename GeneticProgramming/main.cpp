@@ -4,7 +4,7 @@
 
 int main()
 {
-	std::cout << "[GP] initializeing...";
+	std::cout << "[GP] initializeing..." << std::endl;
 	GeneticProgramming gp(10, 0.5); // population_size, mutation_rate
 	std::cout << "Done" << std::endl;
 

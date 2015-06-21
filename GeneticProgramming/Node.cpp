@@ -7,7 +7,7 @@
 Node::Node(const std::string &type, const int level, const std::string &data) : type_(type), level_(level), data_(data)
 {
 	const int Expected_Height = 5;
-	const double Constant_range = 100;
+	const double Constant_range = 10;
 	// Growth
 	if (level < Expected_Height)
 	{
@@ -68,15 +68,15 @@ const Ruleset &Node::GrowthRule(const std::string &type)
 {
 	static std::map<std::string, Ruleset> Rule;
 	Rule["statements"] = Ruleset{ { "Transform", "statement", "statements", "controlStatement" }, { "Transform", "statement" } };
-	Rule["statement"] = Ruleset{ { "Transform", "controlStatement" }, { "Transform", "argumentRequiring0" }, { "Transform", "argumentRequiring1"} };
+	Rule["statement"] = Ruleset{ { "Transform", "controlStatement" }, { "Transform", "argumentRequiring1"} };
 	Rule["controlStatement"] = Ruleset{ { "Transform", "flowStatement" } };
-	Rule["flowStatement"] = Ruleset{ { "Transform", "whileStatement" }, { "Transform", "ifStatement" } };
+	Rule["flowStatement"] = Ruleset{ { "Transform", "ifStatement" } };
 	Rule["ifStatement"] = Ruleset{ { "Transform", "ifStatement", "elseIfStatement" }, { "Expand", "conditionalExpression", "statements" } };
 	Rule["elseIfStatement"] = Ruleset{ { "Transform", "elseIfStatement", "elseIfStatement" }, { "Transform", "elseIfStatement", "elseStatement" }, { "Expand", "conditionalExpression", "statements" } };
 	// Semi-terminals
-	Rule["whileStatement"] = Ruleset{ { "Expand", "conditionalExpression", "statements" } };
+	// Rule["whileStatement"] = Ruleset{ { "Expand", "conditionalExpression", "statements" } };
 	// Terminals Zero-way
-	Rule["argumentRequiring0"] = Ruleset{ { "Expand", "null" } };
+	//Rule["argumentRequiring0"] = Ruleset{ { "Expand", "null" } };
 	// Termninals One-way
 	Rule["elseStatement"] = Ruleset{ { "Expand", "statements" } };
 	Rule["argumentRequiring1"] = Ruleset{ { "Expand", "expression" } };
@@ -105,15 +105,15 @@ const Ruleset &Node::TerminalRule(const std::string &type)
 {
 	static std::map<std::string, Ruleset> Terminal;
 	Terminal["statements"] = Ruleset{ { "Transform", "statement" } };
-	Terminal["statement"] = Ruleset{ { "Transform", "argumentRequiring0" }, { "Transform", "argumentRequiring1" } };
+	Terminal["statement"] = Ruleset{ { "Transform", "argumentRequiring1" } };
 	Terminal["controlStatement"] = Ruleset{ { "Transform", "flowStatement" } };
-	Terminal["flowStatement"] = Ruleset{ { "Transform", "whileStatement" }, { "Transform", "ifStatement" } };
+	Terminal["flowStatement"] = Ruleset{ { "Transform", "ifStatement" } };
 	Terminal["ifStatement"] = Ruleset{ { "Expand", "conditionalExpression", "statements" } };
 	Terminal["elseIfStatement"] = Ruleset{ { "Expand", "conditionalExpression", "statements" } };
 	// Semi-terminals
-	Terminal["whileStatement"] = Ruleset{ { "Expand", "conditionalExpression", "statements" } };
+	// Terminal["whileStatement"] = Ruleset{ { "Expand", "conditionalExpression", "statements" } };
 	// Terminals Zero-way
-	Terminal["argumentRequiring0"] = Ruleset{ { "Expand", "null" } };
+	//Terminal["argumentRequiring0"] = Ruleset{ { "Expand", "null" } };
 	// Termninals One-way
 	Terminal["elseStatement"] = Ruleset{ { "Expand", "statements" } };
 	Terminal["argumentRequiring1"] = Ruleset{ { "Expand", "expression" } };

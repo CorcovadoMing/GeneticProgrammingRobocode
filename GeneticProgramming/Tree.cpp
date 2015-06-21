@@ -198,14 +198,6 @@ void Tree::parse(std::ostream &fout, Node *node, const bool withNewLine, int ind
 					}
 					fout << node->getData() << ";" << std::endl;
 				}
-				else if (node->getType() == "argumentRequiring0")
-				{
-					if (node->getData() == "null")
-					{
-						node->setData(Tree::randomArgumentRequiring0(GP_no_));
-					}
-					fout << node->getData() << ";" << std::endl;
-				}
 				else
 				{
 					fout << node->getType() << ";" << std::endl;
@@ -222,14 +214,6 @@ void Tree::parse(std::ostream &fout, Node *node, const bool withNewLine, int ind
 					if (node->getData() == "null")
 					{
 						node->setData(Tree::randomVariable(GP_no_));
-					}
-					fout << node->getData();
-				}
-				else if (node->getType() == "argumentRequiring0")
-				{
-					if (node->getData() == "null")
-					{
-						node->setData(Tree::randomArgumentRequiring0(GP_no_));
 					}
 					fout << node->getData();
 				}
@@ -287,19 +271,6 @@ const std::string &Tree::randomVariable(const int type)
 	const std::size_t index = RandomRange::random<int>(0, table[type].size() - 1);
 	return table[type][index];
 }
-	
-const std::string &Tree::randomArgumentRequiring0(const int type)
-{
-	static Table table(3);
-	table[0].push_back("//nothing");
-
-	table[1].push_back("//nothing");
-
-	table[2].push_back("//nothing");
-
-	const std::size_t index = RandomRange::random<int>(0, table[type].size() - 1);
-	return table[type][index];
-}
 
 const std::string &Tree::randomArgumentRequiring1(const int type)
 {
@@ -311,6 +282,7 @@ const std::string &Tree::randomArgumentRequiring1(const int type)
 
 	table[2].push_back("setAhead");
 	table[2].push_back("setTurnRightRadians");
+	table[2].push_back("reverseDirection");
 
 	const std::size_t index = RandomRange::random<int>(0, table[type].size() - 1);
 	return table[type][index];

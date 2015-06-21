@@ -21,13 +21,14 @@ public:
 
 private:
 	void evaluate_populations_();
+	void evaluate_offsprings_();
 	const double evaluate_(Chromosome &, const int type);
 	void makeRobot(Chromosome &, std::ofstream &);
 
 	PopulationGroup population_;
 	PopulationGroup offspring_;
 
-	std::vector< std::vector<double> > fitness_;
+	std::vector< std::vector<double> > fitness_, offspring_fitness_;
 	std::vector< std::vector<std::size_t> > selected_;
 
 	double best_[3] = {0};
