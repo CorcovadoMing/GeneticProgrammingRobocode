@@ -142,7 +142,7 @@ void GeneticProgramming::evaluate_populations_()
 	{
 		for (std::size_t j = 0; j < population_[i].size(); j += 1)
 		{
-			// fitness_[i][j] = evaluate_(population_[i][j]);
+			fitness_[i][j] = evaluate_(population_[i][j]);
 		}
 	}
 }
@@ -151,16 +151,18 @@ void GeneticProgramming::evaluate_populations_()
 
 void send()
 {
-	Channel::ptr_t channel = Channel::Create("localhost");
+	Channel::ptr_t channel = Channel::Create(getenv("RABBITMQ_PORT_5672_TCP_ADDR"));
 	BasicMessage::ptr_t msg_in = BasicMessage::Create();
 	msg_in->Body("This is a small message.");
+	channel->DeclareExchange("control", "fanout");
 	channel->BasicPublish("control", "", msg_in);
 }
 
 void receive()
 {
-	Channel::ptr_t channel = Channel::Create("localhost");
+	Channel::ptr_t channel = Channel::Create(getenv("RABBITMQ_PORT_5672_TCP_ADDR"));
 	channel->DeclareQueue("robocode_gp_control");
+	channel->DeclareExchange("gp", "fanout");
 	channel->BindQueue("robocode_gp_control", "gp", "robocode");
 	channel->BasicConsume("robocode_gp_control", "consumertag");
 	BasicMessage::ptr_t msg_out = channel->BasicConsumeMessage("consumertag")->Message();

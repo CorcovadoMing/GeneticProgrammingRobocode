@@ -2,6 +2,7 @@ __author__ = 'Ming'
 
 from shell import *
 import pika
+import os
 
 def simulate():
     out, err = shell_command(["/robocode/robocode.sh", "-battle", "battle/intro.battle", "-nodisplay", "-results",
@@ -33,7 +34,7 @@ def parse_result(filename):
 
 
 def serve():
-    connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost'))
+    connection = pika.BlockingConnection(pika.ConnectionParameters(host=os.environ['RABBITMQ_PORT_5672_TCP_ADDR']))
     channel = connection.channel()
 
     channel.exchange_declare(exchange='control', type='fanout')
@@ -43,14 +44,10 @@ def serve():
 
     def callback(ch, method, properties, body):
         # print " [x] %r" % (body,)
-        '''
-        process
-        '''
-
-        connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost'))
+        connection = pika.BlockingConnection(pika.ConnectionParameters(host=os.environ['RABBITMQ_PORT_5672_TCP_ADDR']))
         channel = connection.channel()
         channel.exchange_declare(exchange='gp', type='fanout')
-        message = "TEST"
+        message = "0"
         channel.basic_publish(exchange='gp', routing_key='', body=message)
         # print " [x] Sent %r" % (message,)
         # connection.close()
