@@ -1,8 +1,8 @@
 all:
-	g++ GeneticProgramming/*.cpp -std=c++11 -O3 `pkg-config --libs libSimpleAmqpClient` -o gp
+	@g++ GeneticProgramming/*.cpp -std=c++11 -O3 `pkg-config --libs libSimpleAmqpClient` -o gp
 
 run:
-	./gp
+	@./gp
 
 clean:
-	rm ./gp
+	@rm ./gp

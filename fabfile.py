@@ -3,23 +3,56 @@ from fabric.api import local
 from fabric.colors import green, magenta, yellow
 from fabric.context_managers import hide
 
+container = [
+'rf37535/rabbitmq',
+'rf37535/dummy',
+'rf37535/robocode:controlengine'
+]
+
+container_name = [
+'rabbitmq',
+'robocode-source',
+'controlengine',
+]
+
+startup_command = [
+'docker run -d --name rabbitmq rf37535/rabbitmq',
+'docker create -v /e/Github/GeneticProgrammingRobocode:/source --name robocode-source rf37535/dummy',
+'docker run -d --name controlengine --volumes-from robocode-source --link rabbitmq:rabbitmq rf37535/robocode:controlengine'
+]
+
 def up():
     with hide('running'):
-        print magenta("[1/2] Start up rabbitmq...", bold=True)
-        print green(local("docker run -d --name rabbitmq rf37535/rabbitmq", capture=True))
+        for i in xrange(len(container)):
+            print magenta('['+str(i+1)+'/'+str(len(container))+'] Start up '+container_name[i]+'...', bold=True)
+            print green(local(startup_command[i], capture=True))
 
-        print magenta("[2/2] Start up robocode control engine...", bold=True)
-        print green(local("docker run -d --name controlengine --link rabbitmq:rabbitmq rf37535/robocode:controlengine", capture=True))
-
-def ps():
+def ps(state='run'):
     with hide('running'):
-        print magenta("[Process state]", bold=True)
-        print green(local("docker ps -a", capture=True))
+        if state == 'all':
+            print magenta("[All process state]", bold=True)
+            print yellow(local("docker ps -a", capture=True))
+        else:
+            print magenta("[Running process state]", bold=True)
+            print yellow(local("docker ps", capture=True))
 
 def rm():
     with hide('running'):
-        print magenta("[1/2] Remove rabbitmq...", bold=True)
-        print green(local("docker rm -f rabbitmq", capture=True))
+        for i in xrange(len(container)):
+            print magenta('['+str(i+1)+'/'+str(len(container))+'] Clean up '+container_name[i]+'...', bold=True)
+            print green(local('docker rm -f '+container_name[i], capture=True))
 
-        print magenta("[2/2] Remove rabbitmq...", bold=True)
-        print green(local("docker rm -f controlengine", capture=True))
+def test():
+    up()
+    ps('all')
+    with hide('running'):
+        print magenta('[info] Building source...', bold=True)
+        print green(local('docker run --rm --volumes-from robocode-source rf37535/build bash -c "cd /source && make"'))
+
+        print magenta('[info] Running...', bold=True)
+        print green(local('docker run --rm --volumes-from robocode-source rf37535/build bash -c "cd /source && make run"'))
+
+        print magenta('[info] Building source...', bold=True)
+        print green(local('docker run --rm --volumes-from robocode-source rf37535/build bash -c "cd /source && make clean"'))
+    rm()
+
