@@ -84,7 +84,7 @@ void GeneticProgramming::writeFirst()
 		double worst = 999;
 		for (std::size_t j = 0; j < fitness_[i].size(); j += 1)
 		{
-			if (fitness_[i][j] < best)
+			if (fitness_[i][j] < worst)
 			{
 				worst = fitness_[i][j];
 				worst_index = j;
