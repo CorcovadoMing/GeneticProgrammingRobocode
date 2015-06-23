@@ -24,112 +24,43 @@ public class GP extends AdvancedRobot
 		}
 	}
 	void doFire() {
-if ( target.speed != 7.1674 ) {
-    fire( target.distance );
+if ( target.bearing == target.distance ) {
+    fire( 9.32327 );
 }
-else if ( target.bearing != target.energy ) {
-    if ( target.energy != target.energy || target.bearing != 5.63196 ) {
-        fire( -3.04457 );
-    }
-    fire( ( 0.94356 / 3.81132 ) );
-    if ( target.speed != 7.1674 ) {
-        fire( target.distance );
-    }
-    else if ( target.bearing < target.energy ) {
-        fire( target.head );
-    }
+else if ( target.y > 7.8038 ) {
+    fire( 5.24649 );
 }
-fire( ( 0.94356 / 3.81132 ) );
-if ( target.speed != 0.94356 ) {
-    fire( target.distance );
-}
-else if ( target.bearing < target.energy ) {
-    fire( target.head );
-}
-else if ( target.speed != -4.04249 ) {
-    fire( -3.04457 );
+else if ( target.bearing == -0.17709 ) {
+    fire( 7.23594 );
 }
 	}
 
 	void doMovement() {
-if ( target.head > target.x && target.distance != 8.44259 ) {
-    setTurnRightRadians( -0.437858 );
+if ( target.bearing < target.speed ) {
+    setTurnRightRadians( target.energy );
 }
-else if ( target.distance < direction || target.bearing < target.energy ) {
-    setAhead( direction );
+setTurnRightRadians( ( target.speed - target.x ) );
+if ( target.speed > target.distance && target.distance < target.distance ) {
+    setTurnRightRadians( 0.4929 );
 }
-if ( target.energy != target.distance && target.x == target.x ) {
-    setTurnRightRadians( target.head );
+if ( direction == direction ) {
+    setAhead( target.x );
 }
-if ( target.head > target.x && target.distance != 8.44259 ) {
-    setAhead( target.energy );
+if ( direction != -3.57085 ) {
+    setTurnRightRadians( -8.93066 );
 }
-else if ( target.head != target.x || target.distance != 8.44259 ) {
-    setAhead( target.y );
+else if ( target.energy > target.energy || target.bearing == -6.4993 ) {
+    setTurnRightRadians( target.speed );
 }
-else if ( direction != target.energy || target.bearing == 9.06379 ) {
-    setTurnRightRadians( target.head );
+else if ( target.x == -9.16315 && target.bearing != target.y ) {
+    setAhead( target.head );
 }
-else {
-    setTurnRightRadians( 3.17421 );
+else if ( target.x == -9.16315 && target.bearing != target.y ) {
+    setAhead( target.head );
 }
 	}
 	public void onHitWall(HitWallEvent e) {
-setAhead( -4.98875 );
-setTurnRightRadians( -7.26085 );
-if ( direction == direction && target.x == target.bearing ) {
-    setTurnRightRadians( 1.07298 );
-}
-setTurnRightRadians( 9.84428 );
-reverseDirection( -5.69278 );
-reverseDirection( 2.79089 );
-if ( target.x == target.y || target.head > target.energy ) {
-    setTurnRightRadians( target.head );
-}
-if ( target.bearing > 8.55591 && target.bearing != target.head ) {
-    setTurnRightRadians( target.head );
-}
-if ( target.y > -0.215748 ) {
-    setTurnRightRadians( 1.07298 );
-}
-if ( target.head > 3.93307 && target.bearing != -0.978676 ) {
-    setAhead( -4.98875 );
-    setTurnRightRadians( -6.58599 );
-    if ( direction == direction && target.x == target.bearing ) {
-        setTurnRightRadians( 1.07298 );
-    }
-    setTurnRightRadians( 9.84428 );
-    reverseDirection( -5.69278 );
-    reverseDirection( 2.79089 );
-    if ( target.x > target.y || target.head > target.energy ) {
-        setTurnRightRadians( target.head );
-    }
-    if ( target.bearing > 8.55591 && target.bearing != target.head ) {
-        setTurnRightRadians( target.head );
-    }
-    if ( target.y > -0.215748 ) {
-        reverseDirection( -8.73003 );
-    }
-    if ( target.head > 3.93307 && target.bearing != -0.978676 ) {
-        setTurnRightRadians( direction );
-    }
-    else if ( target.x == -6.58599 || target.x == 2.76328 ) {
-        setTurnRightRadians( target.energy );
-    }
-    if ( target.speed > target.x && target.x > 6.79894 ) {
-        reverseDirection( 8.78293 );
-        setAhead( target.y );
-        if ( target.head != target.head || target.bearing > 8.54866 ) {
-            setTurnRightRadians( -0.207234 );
-        }
-    }
-}
-else if ( target.x == -6.58599 || target.x == 2.76328 ) {
-    setTurnRightRadians( target.energy );
-}
-if ( target.bearing > 8.55591 && target.bearing != target.head ) {
-    setTurnRightRadians( target.head );
-}
+setTurnRightRadians( target.bearing );
 	}
 	public void reverseDirection(double any) {
 		direction = direction * -1;

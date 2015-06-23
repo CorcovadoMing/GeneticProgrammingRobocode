@@ -24,29 +24,37 @@ public class GP extends AdvancedRobot
 		}
 	}
 	void doFire() {
-fire( target.x );
+fire( target.energy );
 	}
 
 	void doMovement() {
-setAhead( target.y );
-if ( target.head == 3.89966 ) {
-    setTurnRightRadians( 4.19039 );
+setAhead( ( 5.05167 - 2.95189 ) );
+setAhead( ( target.y / 2.92061 ) );
+if ( target.y != target.bearing && target.head != 7.00431 ) {
+    setAhead( -8.259 );
 }
-if ( target.head == 3.89966 ) {
-    setTurnRightRadians( 4.19039 );
+else if ( target.distance == -4.09274 ) {
+    setTurnRightRadians( -1.01482 );
 }
 	}
 	public void onHitWall(HitWallEvent e) {
-reverseDirection( ( 2.33326 + ( target.distance * target.y ) ) );
-if ( target.x == -4.84358 ) {
-    reverseDirection( ( ( 7.85804 + 9.54671 ) / direction ) );
+if ( target.speed < 3.32535 && target.distance > -8.3907 ) {
+    reverseDirection( -3.74371 );
 }
-if ( target.distance == -5.05816 ) {
-    setAhead( target.y );
-    reverseDirection( target.speed );
-    if ( target.x > -1.35524 ) {
-        setTurnRightRadians( direction );
-    }
+if ( target.bearing == 1.11439 || target.bearing < direction ) {
+    setTurnRightRadians( 0.285932 );
+}
+if ( target.y > target.y || target.y > direction ) {
+    reverseDirection( target.y );
+}
+if ( direction < target.head && target.speed > target.energy ) {
+    reverseDirection( direction );
+}
+else if ( direction < -3.84958 && target.x == 7.86409 ) {
+    reverseDirection( target.energy );
+}
+if ( target.bearing == 1.11439 || target.bearing < direction ) {
+    setTurnRightRadians( 0.285932 );
 }
 	}
 	public void reverseDirection(double any) {

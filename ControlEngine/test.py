@@ -1,19 +1,3 @@
-__author__ = 'Ming'
-
-from shell import *
-import pika
-import os
-
-def compile_robot():
-    out, err = shell_command(["javac", "-cp", "/robocode/libs/robocode.jar", "robots/GP/GP.java"])
-    print out, err
-
-def simulate(num):
-    out, err = shell_command(["/robocode/robocode.sh", "-battle", "/source/ControlEngine/battle/gp"+str(num)+".battle", "-nodisplay", "-results",
-                              "/source/ControlEngine/result/result.txt"])
-    return parse_result("result/result.txt")
-
-
 def parse_result(filename):
     skip = 2
     records = []
@@ -69,26 +53,4 @@ def fitness(records, body):
 
     return result
 
-def serve():
-    connection = pika.BlockingConnection(pika.ConnectionParameters(host=os.environ['RABBITMQ_PORT_5672_TCP_ADDR']))
-    channel = connection.channel()
-
-    channel.exchange_declare(exchange='control', type='fanout')
-    result = channel.queue_declare(exclusive=True)
-    queue_name = result.method.queue
-    channel.queue_bind(exchange='control', queue=queue_name)
-
-    def callback(ch, method, properties, body):
-        compile_robot()
-        message = str((fitness(simulate(1), body) + fitness(simulate(2), body))/float(2))
-        connection = pika.BlockingConnection(pika.ConnectionParameters(host=os.environ['RABBITMQ_PORT_5672_TCP_ADDR']))
-        channel = connection.channel()
-        channel.exchange_declare(exchange='gp', type='fanout')
-        channel.basic_publish(exchange='gp', routing_key='', body=message)
-
-    channel.basic_consume(callback, queue=queue_name, no_ack=True)
-    channel.start_consuming()
-
-
-if __name__ == '__main__':
-    serve()
+print str(fitness(parse_result("result/result.txt"), "0")/float(1))

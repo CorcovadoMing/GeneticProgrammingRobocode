@@ -89,12 +89,13 @@ void GeneticProgramming::writeFirst()
 				worst = fitness_[i][j];
 				worst_index = j;
 			}
-			std::ofstream fout;
-			std::string filename= "bak/first/" + n[i] + ".java";
-			fout.open(filename);
-			makeRobot(population_[i][worst_index], fout);
-			fout.close();
 		}
+		std::ofstream fout;
+		std::string filename= "bak/first/" + n[i] + ".java";
+		fout.open(filename);
+		std::cout << "Write robots, fitness: " << fitness_[i][worst_index] << std::endl;
+		makeRobot(population_[i][worst_index], fout);
+		fout.close();
 	}
 }
 
@@ -112,12 +113,13 @@ void GeneticProgramming::writeFinal()
 				best = fitness_[i][j];
 				best_index = j;
 			}
-			std::ofstream fout;
-			std::string filename= "bak/final/" + n[i] + ".java";
-			fout.open(filename);
-			makeRobot(population_[i][best_index], fout);
-			fout.close();
 		}
+		std::ofstream fout;
+		std::string filename= "bak/final/" + n[i] + ".java";
+		fout.open(filename);
+		std::cout << "Write robots, fitness: " << fitness_[i][best_index] << std::endl;
+		makeRobot(population_[i][best_index], fout);
+		fout.close();
 	}
 }
 

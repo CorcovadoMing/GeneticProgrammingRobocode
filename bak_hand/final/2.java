@@ -24,28 +24,30 @@ public class GP extends AdvancedRobot
 		}
 	}
 	void doFire() {
-fire( target.x );
+fire( target.distance );
 	}
 
 	void doMovement() {
-setAhead( target.y );
-if ( target.head == 3.89966 ) {
-    setTurnRightRadians( 4.19039 );
+if ( target.bearing > target.speed ) {
+    setAhead( target.speed );
 }
-if ( target.head == 3.89966 ) {
-    setTurnRightRadians( 4.19039 );
+else if ( target.energy > 7.98641 ) {
+    setAhead( target.speed );
 }
 	}
 	public void onHitWall(HitWallEvent e) {
-reverseDirection( ( 2.33326 + ( target.distance * target.y ) ) );
-if ( target.x == -4.84358 ) {
-    reverseDirection( ( ( 7.85804 + 9.54671 ) / direction ) );
+if ( target.speed == 5.75668 && target.y < direction ) {
+    setAhead( ( -5.532 / target.bearing ) );
 }
-if ( target.distance == -5.05816 ) {
-    setAhead( target.y );
-    reverseDirection( target.speed );
-    if ( target.x > -1.35524 ) {
-        setTurnRightRadians( direction );
+else if ( target.head != target.head ) {
+    setTurnRightRadians( 0.954943 );
+}
+setAhead( ( -5.532 / target.bearing ) );
+if ( target.y == 6.25787 && direction > direction ) {
+    reverseDirection( target.distance );
+    setAhead( -8.14781 );
+    if ( target.distance < target.head || direction < -6.89637 ) {
+        setTurnRightRadians( -0.546814 );
     }
 }
 	}
